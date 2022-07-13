@@ -1,8 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using Opsive.UltimateCharacterController.Character;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Pinball
 {
@@ -22,9 +23,10 @@ namespace Pinball
         [SerializeField]
         private LayerMask _targetLayer;
         private PullTarget _currentTarget;
-        private UltimateCharacterLocomotion _locomotion;
-        private bool _isInRange;
+        private UltimateCharacterLocomotion _locomotion; 
         private List<PullTarget> _insideCollider;
+        private bool _isInRange;
+        private bool _activeForce;
 
         private void Start()
         {
@@ -36,6 +38,9 @@ namespace Pinball
 
         private void Update()
         {
+            float threshhold = 0.01f;
+            if(Input.GetAxis("RightTrigger") > threshhold)
+
             if(_insideCollider.Count > 0)
             {
                 _currentTarget = ClosestToCenter();
@@ -47,13 +52,30 @@ namespace Pinball
             }              
         }
 
-        public void OnFire1(InputAction.CallbackContext callback)
+        public void OnFire1(InputAction.CallbackContext value)
         {
-            if (_isInRange)
-            {
+            float inputStr = value.ReadValue<float>();
+            Debug.Log("Current value is: " + inputStr);
+            if (/*_isInRange && */value.performed && !_activeForce)
+            {               
+                Debug.Log("OnFire1 performed : " + inputStr);
                 Vector3 targetDir = _currentTarget.transform.position - transform.position;
-                Vector3 applyMag = targetDir.normalized * _powerModifier;
-                _locomotion.AddForce(applyMag, 5);
+                Vector3 applyMag = targetDir.normalized * _powerModifier * inputStr;
+                _activeForce = true;
+                StartCoroutine(CurrentForce(applyMag));
+            }
+            if(value.canceled)
+            {
+                Debug.Log("OnFire1 cancled: " + inputStr);
+                _activeForce = false;
+            }
+        }
+        private IEnumerator CurrentForce(Vector3 force)
+        {
+            while (_activeForce)
+            {
+                _locomotion.AddForce(force, 1);
+                yield return new WaitForFixedUpdate();                  
             }
         }
 
@@ -69,6 +91,8 @@ namespace Pinball
         {
             _insideCollider.Remove(me);
         }
+
+     
 
         private PullTarget ClosestToCenter()
         {

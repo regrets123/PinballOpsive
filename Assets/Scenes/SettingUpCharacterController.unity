@@ -779,7 +779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 720db810842ff08459f23d2def207297, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -808,7 +808,19 @@ MonoBehaviour:
     m_ActionId: 46cf35fd-8ad5-4550-b147-a37c20766c6c
     m_ActionName: Gameplay/Mouse Y[/DualSenseGamepadHID/rightStick/y,/Mouse/delta/y]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1118355679}
+        m_TargetAssemblyTypeName: Pinball.Puller, Assembly-CSharp
+        m_MethodName: OnFire1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2e6b07e4-7c76-4280-9981-37e59afe0402
     m_ActionName: Gameplay/Fire1[/Mouse/leftButton,/Keyboard/leftCtrl,/DualSenseGamepadHID/rightTrigger]
   - m_PersistentCalls:

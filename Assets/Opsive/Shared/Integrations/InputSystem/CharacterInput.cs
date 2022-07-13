@@ -65,11 +65,11 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Fire1"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""2e6b07e4-7c76-4280-9981-37e59afe0402"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(pressPoint=0.2,behavior=2)"",
                     ""initialStateCheck"": false
                 },
                 {
