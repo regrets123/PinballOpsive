@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 using Opsive.UltimateCharacterController.Character;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.InputSystem.Users;
+using UnityEngine.InputSystem.Utilities;
 
 namespace Pinball
 {
@@ -21,26 +23,28 @@ namespace Pinball
         [SerializeField]
         private float _powerModifier;
         [SerializeField]
+        private float _rtThreshhold;
+        
+        [SerializeField]
         private LayerMask _targetLayer;
         private PullTarget _currentTarget;
         private UltimateCharacterLocomotion _locomotion; 
         private List<PullTarget> _insideCollider;
         private bool _isInRange;
-        private bool _activeForce;
+        private Gamepad _pad;
 
         private void Start()
         {
             _insideCollider = new List<PullTarget>();
             _locomotion = GetComponent<UltimateCharacterLocomotion>();
+            _pad = Gamepad.current;
+            Assert.IsNotNull(_pad);
             Assert.IsNotNull(_playerCam);
             Assert.IsNotNull(_locomotion);
         }
 
         private void Update()
-        {
-            float threshhold = 0.01f;
-            if(Input.GetAxis("RightTrigger") > threshhold)
-
+        {       
             if(_insideCollider.Count > 0)
             {
                 _currentTarget = ClosestToCenter();
@@ -48,36 +52,30 @@ namespace Pinball
             if(_currentTarget != null)
             {
                 _currentTarget.TargetMe(true);
-                _isInRange = _currentTarget.IsInRange(transform.position, _pullRange);         
-            }              
+                _isInRange = _currentTarget.IsInRange(transform.position, _pullRange);
+                if (_pad != null)
+                {
+                    CheckPull();
+                }
+            }
         }
 
-        public void OnFire1(InputAction.CallbackContext value)
+        private void CheckPull()
         {
-            float inputStr = value.ReadValue<float>();
-            Debug.Log("Current value is: " + inputStr);
-            if (/*_isInRange && */value.performed && !_activeForce)
-            {               
-                Debug.Log("OnFire1 performed : " + inputStr);
-                Vector3 targetDir = _currentTarget.transform.position - transform.position;
-                Vector3 applyMag = targetDir.normalized * _powerModifier * inputStr;
-                _activeForce = true;
-                StartCoroutine(CurrentForce(applyMag));
-            }
-            if(value.canceled)
+            float rtValue = _pad.rightTrigger.ReadValue();
+            if(rtValue > _rtThreshhold && _isInRange)
             {
-                Debug.Log("OnFire1 cancled: " + inputStr);
-                _activeForce = false;
+                Pull(rtValue);
             }
         }
-        private IEnumerator CurrentForce(Vector3 force)
+
+        private void Pull(float inputStr)
         {
-            while (_activeForce)
-            {
-                _locomotion.AddForce(force, 1);
-                yield return new WaitForFixedUpdate();                  
-            }
+            Vector3 targetDir = _currentTarget.transform.position - transform.position;
+            Vector3 applyMag = targetDir.normalized * _powerModifier * inputStr;
+            _locomotion.AddForce(applyMag, 1);
         }
+
 
         public void AddMe(PullTarget me)
         {
