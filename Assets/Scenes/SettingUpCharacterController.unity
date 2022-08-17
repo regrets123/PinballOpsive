@@ -1074,7 +1074,7 @@ MonoBehaviour:
   m_SkinWidth: 0.08
   m_SlopeLimit: 40
   m_MaxStepHeight: 0.35
-  m_MotorAcceleration: {x: 0.18, y: 0, z: 0.18}
+  m_MotorAcceleration: {x: 0.36, y: 0, z: 0.36}
   m_MotorDamping: 0.27
   m_MotorAirborneAcceleration: {x: 0.12, y: 0, z: 0.12}
   m_MotorAirborneDamping: 0.3
