@@ -1083,8 +1083,8 @@ MonoBehaviour:
   m_AdjustMotorForceOnSlope: 1
   m_MotorSlopeForceUp: 1
   m_MotorSlopeForceDown: 1.25
-  m_ExternalForceDamping: 0.01
-  m_ExternalForceAirDamping: 0
+  m_ExternalForceDamping: 0.05
+  m_ExternalForceAirDamping: 0.05
   m_StickToGround: 1
   m_Stickiness: 0.2
   m_TimeScale: 1
@@ -1282,7 +1282,7 @@ MonoBehaviour:
   _hitRadius: 15
   _maxRange: 200
   _pullRange: 100
-  _powerModifier: 5
+  _powerModifier: 1.2
   _rtThreshhold: 0.01
   _targetLayer:
     serializedVersion: 2
