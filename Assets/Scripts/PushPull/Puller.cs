@@ -3,15 +3,14 @@ using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using Opsive.UltimateCharacterController.Character;
 using System.Collections.Generic;
-using System.Collections;
-using UnityEngine.InputSystem.Users;
-using UnityEngine.InputSystem.Utilities;
 
 namespace Pinball
 {
     [RequireComponent(typeof(PlayerInput),typeof(UltimateCharacterLocomotion))]
     public class Puller : MonoBehaviour
     {
+        [SerializeField]
+        private Stamina _staminaRef;
         [SerializeField]
         private Camera _playerCam;
         [SerializeField]
@@ -24,7 +23,9 @@ namespace Pinball
         private float _powerModifier;
         [SerializeField]
         private float _rtThreshhold;
-        
+    
+
+
         [SerializeField]
         private LayerMask _targetLayer;
         private PullTarget _currentTarget;
@@ -63,7 +64,7 @@ namespace Pinball
         private void CheckPull()
         {
             float rtValue = _pad.rightTrigger.ReadValue();
-            if(rtValue > _rtThreshhold && _isInRange)
+            if(rtValue > _rtThreshhold && _isInRange && _staminaRef.ConsumeStamina())
             {
                 Pull(rtValue);
             }
