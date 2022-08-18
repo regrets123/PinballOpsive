@@ -23,11 +23,11 @@ namespace Pinball
             _image = Locator.Instance.GetStamina;
         }
 
-        public bool ConsumeStamina()
+        public bool ConsumeStamina(float percentageMod)
         {
             if(_currentStamina > _costPerUse)
             {
-                _currentStamina -= _costPerUse;
+                _currentStamina -= _costPerUse * percentageMod;
                 UpdateBarVisual();
                 RefreshCooldown();
                 return true;
@@ -35,7 +35,7 @@ namespace Pinball
             return false;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if(_currentCooldown > 0)
             {
@@ -51,7 +51,7 @@ namespace Pinball
         {
             if(_currentStamina < _maxStamina)
             {
-                _currentStamina += _regenRate * Time.deltaTime;
+                _currentStamina += _regenRate;
                 if (_currentStamina > _maxStamina)
                 {
                     _currentStamina = _maxStamina;

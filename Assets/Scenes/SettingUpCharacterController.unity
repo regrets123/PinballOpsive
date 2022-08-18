@@ -1146,21 +1146,21 @@ MonoBehaviour:
   m_RootMotionRotationMultiplier: 1
   m_MotorRotationSpeed: 10
   m_FramerateIndependentForce: 0
-  m_Mass: 100
+  m_Mass: 75
   m_SkinWidth: 0.08
   m_SlopeLimit: 40
   m_MaxStepHeight: 0.35
   m_MotorAcceleration: {x: 0.36, y: 0, z: 0.36}
   m_MotorDamping: 0.27
   m_MotorAirborneAcceleration: {x: 0.12, y: 0, z: 0.12}
-  m_MotorAirborneDamping: 0.3
+  m_MotorAirborneDamping: 0.1
   m_MotorBackwardsMultiplier: 0.7
   m_PreviousAccelerationInfluence: 1
   m_AdjustMotorForceOnSlope: 1
   m_MotorSlopeForceUp: 1
   m_MotorSlopeForceDown: 1.25
   m_ExternalForceDamping: 0.05
-  m_ExternalForceAirDamping: 0.05
+  m_ExternalForceAirDamping: 0.02
   m_StickToGround: 1
   m_Stickiness: 0.2
   m_TimeScale: 1
@@ -1173,7 +1173,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2415919099
   m_MaxCollisionCount: 100
-  m_MaxSoftForceFrames: 100
+  m_MaxSoftForceFrames: 1000
   m_RotationCollisionCheckCount: 10
   m_MaxOverlapIterations: 6
   m_WallGlideCurve:
@@ -1378,9 +1378,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxStamina: 300
   _currentStamina: 300
-  _costPerUse: 0.5
+  _costPerUse: 0.7
   _regenCooldown: 0.2
-  _regenRate: 30
+  _regenRate: 1.5
 --- !u!1 &1167450454
 GameObject:
   m_ObjectHideFlags: 0

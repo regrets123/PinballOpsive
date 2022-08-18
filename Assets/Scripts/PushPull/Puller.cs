@@ -64,7 +64,7 @@ namespace Pinball
         private void CheckPull()
         {
             float rtValue = _pad.rightTrigger.ReadValue();
-            if(rtValue > _rtThreshhold && _isInRange && _staminaRef.ConsumeStamina())
+            if(rtValue > _rtThreshhold && _isInRange && _staminaRef.ConsumeStamina(rtValue))
             {
                 Pull(rtValue);
             }
