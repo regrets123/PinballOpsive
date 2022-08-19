@@ -23,7 +23,8 @@ namespace Pinball
         private float _powerModifier;
         [SerializeField]
         private float _rtThreshhold;
-    
+        [SerializeField]
+        private float _yTargetOffset = 3f;
 
 
         [SerializeField]
@@ -72,7 +73,8 @@ namespace Pinball
 
         private void Pull(float inputStr)
         {
-            Vector3 targetDir = _currentTarget.transform.position - transform.position;
+            Vector3 raisedTarget = _currentTarget.transform.position + new Vector3(0, _yTargetOffset, 0);
+            Vector3 targetDir = raisedTarget - transform.position;
             Vector3 applyMag = targetDir.normalized * _powerModifier * inputStr;
             _locomotion.AddForce(applyMag, 1);
         }
