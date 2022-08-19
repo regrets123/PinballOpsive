@@ -16,12 +16,8 @@ namespace Pinball
         [SerializeField]
         private float _regenRate;
         private float _currentCooldown;
+        [SerializeField]
         private Image _image;
-
-        private void Awake()
-        {
-            _image = Locator.Instance.GetStamina;
-        }
 
         public bool ConsumeStamina(float percentageMod)
         {
