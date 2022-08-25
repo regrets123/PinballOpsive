@@ -55,8 +55,9 @@ namespace Pinball
         private PullTarget FindPushTarget()
         {
             //Make this method recursiv in the future to save performance. It would then have a fraction of max range at start and gradually increase to max range. 
-            LayerMask mask = LayerMask.NameToLayer("Pullable");
-            Collider[] pushers = Physics.OverlapSphere(transform.position, _maxRange, mask, QueryTriggerInteraction.Collide);        
+            LayerMask mask = LayerMask.GetMask("Pullable");
+            Collider[] pushers = Physics.OverlapSphere(transform.position, _maxRange, mask, QueryTriggerInteraction.Collide);
+            Debug.Log("pushTargetArrSize is " +pushers.Length);
             float dist = Mathf.Infinity;
             int minIndex = -1;
             for (int i = 0; i < pushers.Length; i++)

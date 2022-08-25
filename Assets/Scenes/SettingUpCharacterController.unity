@@ -4665,7 +4665,7 @@ MonoBehaviour:
   _staminaRef: {fileID: 1118355681}
   _playerCam: {fileID: 1911078428}
   _hitRadius: 15
-  _maxRange: 400
+  _maxRange: 200
   _pushRange: 300
   _powerModifier: 1.2
   _ltThreshhold: 0.01
