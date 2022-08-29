@@ -134,6 +134,26 @@ namespace Pinball
             return FindClosets(pushers);
         }
 
+        private PullTarget FindClosestAngle(Collider[] targets)
+        {
+            float dist = Mathf.Infinity;
+            int minIndex = -1;
+            for (int i = 0; i < targets.Length; i++)
+            {
+                float newAngle = Vector3.Angle(transform.position, targets[i].transform.position);
+                if (newAngle < dist)
+                {
+                    dist = newAngle;
+                    minIndex = i;
+                }
+            }
+            if (minIndex < 0)
+            {
+                return null;
+            }
+            return targets[minIndex].GetComponent<PullTarget>();
+        }
+
         private PullTarget FindClosets(Collider[] targets)
         {
             float dist = Mathf.Infinity;
