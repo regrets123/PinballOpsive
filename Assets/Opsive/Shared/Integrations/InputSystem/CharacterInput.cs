@@ -942,17 +942,6 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f429cf98-73e4-43a7-96b4-21988ff8f1a9"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Fire2"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""643aabd0-3384-4fb2-9ebc-907a61bbd719"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",

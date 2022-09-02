@@ -33,6 +33,7 @@ namespace Pinball
         private UltimateCharacterLocomotion _locomotion;
         private Gamepad _pad;
         private LineRenderer _pushLine;
+        private Vector3 previousPosition;
 
         private void Awake()
         {
@@ -45,6 +46,7 @@ namespace Pinball
             _pad = Gamepad.current;
             _pushLine = GetComponent<LineRenderer>();
             _pushLine.material = new Material(Shader.Find("Sprites/Default"));
+            previousPosition = Vector3.negativeInfinity;
             Assert.IsNotNull(_pad);
             Assert.IsNotNull(_playerCam);
             Assert.IsNotNull(_locomotion);
@@ -55,7 +57,19 @@ namespace Pinball
             float ltValue = _pad.leftTrigger.ReadValue();
             if (ltValue < _ltThreshold)
             {
-                _currentTarget = FindPushTargetColliders();
+                Vector3 currDir = CheckVelocityDirection();
+                if (currDir != Vector3.negativeInfinity)
+                {
+                    PullTarget newtar = CheckStickAngle(currDir);
+                    if (newtar != null)
+                        _currentTarget = newtar;
+                }
+                else
+                {
+                    PullTarget newtar = FindPushTargetColliders();
+                    if (newtar != null)
+                        _currentTarget = newtar;
+                }        
             }
             if (_currentTarget != null)
             {
@@ -66,6 +80,7 @@ namespace Pinball
                     CheckPush();
                 }
             }
+            previousPosition = transform.position;
         }
 
         public void AddPushCollider(PushCollider collider, int index)
@@ -74,6 +89,17 @@ namespace Pinball
             {
                 _colliders[index] = collider;
             }
+        }
+
+        private Vector3 CheckVelocityDirection()
+        {
+            Vector3 toReturn = Vector3.negativeInfinity;
+            if (previousPosition != Vector3.negativeInfinity && previousPosition != transform.position)
+            {
+                Vector3 currentDirection = previousPosition - transform.position;
+                toReturn = currentDirection.normalized;
+            }
+            return toReturn;
         }
 
         private void DrawLine()
@@ -91,9 +117,9 @@ namespace Pinball
         private PullTarget FindPushTargetColliders()
         {
             Vector2 lStick = _pad.leftStick.ReadValue();
-            if(lStick.x > _lStickThreshold)
+            if(Mathf.Abs(lStick.y) > _lStickThreshold)
             {
-                if(lStick.x < 0)
+                if(lStick.y < 0)
                 {
                     return FindClosets(_colliders[0].GetTargets());
                 }
@@ -119,28 +145,37 @@ namespace Pinball
                 if (backward != null)
                 {
                     return backward;
-                }            
+                }
+            }
+            return null;
+        }
+
+        private PullTarget CheckStickAngle(Vector3 currentDirection)
+        {
+            Vector2 lStick = _pad.leftStick.ReadValue();
+            if (Mathf.Abs(lStick.y) > _lStickThreshold)
+            {
+                if (lStick.y < 0)
+                {
+                    return FindClosestAngle(_colliders[0].GetTargets(), currentDirection);
+                }
+                else
+                {
+                    return FindClosestAngle(_colliders[1].GetTargets(), currentDirection);
+                }
             }
             return null;
         }
 
 
-        private PullTarget FindPushTargetSphere()
-        {
-            //Make this method recursiv in the future to save performance. It would then have a fraction of max range at start and gradually increase to max range. 
-            LayerMask mask = LayerMask.GetMask("Pullable");
-            Collider[] pushers = Physics.OverlapSphere(transform.position, _maxRange, mask, QueryTriggerInteraction.Collide);
-            Debug.Log("pushTargetArrSize is " +pushers.Length);
-            return FindClosets(pushers);
-        }
-
-        private PullTarget FindClosestAngle(Collider[] targets)
+        private PullTarget FindClosestAngle(Collider[] targets, Vector3 currentDir)
         {
             float dist = Mathf.Infinity;
             int minIndex = -1;
             for (int i = 0; i < targets.Length; i++)
             {
-                float newAngle = Vector3.Angle(transform.position, targets[i].transform.position);
+                Vector3 newDir = targets[i].transform.position - transform.position;
+                float newAngle = Vector3.Angle(currentDir, newDir.normalized);
                 if (newAngle < dist)
                 {
                     dist = newAngle;

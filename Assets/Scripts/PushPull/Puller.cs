@@ -43,6 +43,7 @@ namespace Pinball
             Assert.IsNotNull(_pad);
             Assert.IsNotNull(_playerCam);
             Assert.IsNotNull(_locomotion);
+
         }
 
         private void Update()
@@ -60,6 +61,7 @@ namespace Pinball
                     CheckPull();
                 }
             }
+
         }
 
         private void CheckPull()
@@ -93,7 +95,7 @@ namespace Pinball
             _insideCollider.Remove(me);
         }
 
-     
+
 
         private PullTarget ClosestToCenter()
         {
