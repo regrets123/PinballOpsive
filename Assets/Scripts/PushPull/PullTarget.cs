@@ -5,6 +5,8 @@ namespace Pinball
 {
     public class PullTarget : MonoBehaviour
     {
+        [SerializeField]
+        private float _maxPullDist = 300f;
         private Renderer _myRenderer;
         private Puller _myPuller;
 
@@ -17,7 +19,7 @@ namespace Pinball
 
         private void Update()
         {
-            if(_myRenderer.isVisible)
+            if (_myRenderer.isVisible && Vector3.Distance(transform.position, _myPuller.transform.position) < _maxPullDist)
             {
                 _myPuller.AddMe(this);
             }
