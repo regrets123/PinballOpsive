@@ -37,7 +37,7 @@ namespace Pinball
 
         private void Awake()
         {
-            _colliders = new PushCollider[2];    
+            _colliders = new PushCollider[3];    
         }
 
         private void Start()
@@ -54,23 +54,7 @@ namespace Pinball
 
         private void Update()
         {
-            float ltValue = _pad.leftTrigger.ReadValue();
-            if (ltValue < _ltThreshold)
-            {
-                Vector3 currDir = CheckVelocityDirection();
-                if (currDir != Vector3.negativeInfinity)
-                {
-                    PullTarget newtar = CheckStickAngle(currDir);
-                    if (newtar != null)
-                        _currentTarget = newtar;
-                }
-                else
-                {
-                    PullTarget newtar = FindPushTargetColliders();
-                    if (newtar != null)
-                        _currentTarget = newtar;
-                }        
-            }
+            CheckLtTrigger();        
             if (_currentTarget != null)
             {
                 DrawLine();
@@ -88,6 +72,27 @@ namespace Pinball
             if (_colliders != null)
             {
                 _colliders[index] = collider;
+            }
+        }
+
+        private void CheckLtTrigger()
+        {
+            float ltValue = _pad.leftTrigger.ReadValue();
+            if (ltValue < _ltThreshold && !FindPushBelow())
+            {
+                Vector3 currDir = CheckVelocityDirection();
+                if (currDir != Vector3.negativeInfinity)
+                {
+                    PullTarget newtar = CheckStickAngle(currDir);
+                    if (newtar != null)
+                        _currentTarget = newtar;
+                }
+                else
+                {
+                    PullTarget newtar = FindPushTargetColliders();
+                    if (newtar != null)
+                        _currentTarget = newtar;
+                }
             }
         }
 
@@ -113,26 +118,39 @@ namespace Pinball
             _pushLine.SetPositions(linePos);           
         }
 
+        private bool FindPushBelow()
+        {
+            Collider[] below = _colliders[(int)PushCollider.ColliderDir.Below].GetTargets();
+            if (below.Length < 1)
+            {
+                return false;
+            }
+            else
+            {
+                _currentTarget = FindClosets(below);
+                return true;
+            }
+        }
 
         private PullTarget FindPushTargetColliders()
         {
             Vector2 lStick = _pad.leftStick.ReadValue();
-            if(Mathf.Abs(lStick.y) > _lStickThreshold)
+            if (Mathf.Abs(lStick.y) > _lStickThreshold)
             {
-                if(lStick.y < 0)
+                if (lStick.y < 0)
                 {
-                    return FindClosets(_colliders[0].GetTargets());
+                    return FindClosets(_colliders[(int)PushCollider.ColliderDir.Forward].GetTargets());
                 }
                 else
                 {
-                    return FindClosets(_colliders[1].GetTargets());
+                    return FindClosets(_colliders[(int)PushCollider.ColliderDir.Back].GetTargets());
                 }
             }
             else
             {
-                PullTarget forward = FindClosets(_colliders[0].GetTargets());
-                PullTarget backward = FindClosets(_colliders[1].GetTargets());
-                if(forward != null && backward != null)
+                PullTarget forward = FindClosets(_colliders[(int)PushCollider.ColliderDir.Forward].GetTargets());
+                PullTarget backward = FindClosets(_colliders[(int)PushCollider.ColliderDir.Back].GetTargets());
+                if (forward != null && backward != null)
                 {
                     float forwardDist = Vector3.Distance(forward.transform.position, transform.position);
                     float backwardDist = Vector3.Distance(backward.transform.position, transform.position);
@@ -150,7 +168,7 @@ namespace Pinball
             return null;
         }
 
-        private PullTarget CheckStickAngle(Vector3 currentDirection)
+    private PullTarget CheckStickAngle(Vector3 currentDirection)
         {
             Vector2 lStick = _pad.leftStick.ReadValue();
             if (Mathf.Abs(lStick.y) > _lStickThreshold)

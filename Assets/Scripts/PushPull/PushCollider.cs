@@ -5,25 +5,21 @@ namespace Pinball
 {
     public class PushCollider : MonoBehaviour
     {
+        public enum ColliderDir { Below, Forward, Back }
+        [SerializeField]
+        private ColliderDir _direction;
         [SerializeField]
         Pusher _push;
         [SerializeField]
-        private bool _forward;
-        [SerializeField]
         private List<Collider> _insideBox;
-        private LayerMask _pullable;
+
+        public ColliderDir GetDirection { get { return _direction; } }
 
         private void Start()
         {
-            _pullable = LayerMask.GetMask("Pullable");
             if (_push != null)
             {
-                int index = 0;
-                if(!_forward)
-                {
-                    index = 1;
-                }
-                _push.AddPushCollider(this, index);
+                _push.AddPushCollider(this, (int)_direction);
             }
         }
 
