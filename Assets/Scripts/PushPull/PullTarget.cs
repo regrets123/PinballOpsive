@@ -5,8 +5,6 @@ namespace Pinball
 {
     public class PullTarget : MonoBehaviour
     {
-        [SerializeField]
-        private float _maxPullDist = 300f;
         private Renderer _myRenderer;
         private Puller _myPuller;
 
@@ -19,14 +17,13 @@ namespace Pinball
 
         private void Update()
         {
-            if (_myRenderer.isVisible && Vector3.Distance(transform.position, _myPuller.transform.position) < _maxPullDist)
+            if (_myRenderer.isVisible && Vector3.Distance(transform.position, _myPuller.transform.position) < _myPuller.GetPullRange)
             {
                 _myPuller.AddMe(this);
             }
             else
             {
                 _myPuller.RemoveMe(this);
-                TargetMe(false);
             }
         }
 
@@ -35,23 +32,10 @@ namespace Pinball
             float currentDistance = Vector3.Distance(transform.position, playerPosition);
             if (currentDistance <= pullRange)
             {
-                _myRenderer.material.color = Color.green;
                 return true;
             }
-            _myRenderer.material.color = Color.blue;
             return false;
         }
 
-        public void TargetMe(bool isTarget)
-        {
-            if(isTarget)
-            {
-                _myRenderer.material.color = Color.blue;
-            }
-            else
-            {
-                _myRenderer.material.color = Color.red;
-            }
-        }
     }
 }

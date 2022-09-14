@@ -29,10 +29,12 @@ namespace Pinball
 
         [SerializeField]
         private LayerMask _targetLayer;
+        [SerializeField]
+        private LineRenderer _pushRenderer;
         private PullTarget _currentTarget;
         private UltimateCharacterLocomotion _locomotion;
         private Gamepad _pad;
-        private LineRenderer _pushLine;
+     
         private Vector3 previousPosition;
 
         private void Awake()
@@ -44,12 +46,12 @@ namespace Pinball
         {
             _locomotion = GetComponent<UltimateCharacterLocomotion>();
             _pad = Gamepad.current;
-            _pushLine = GetComponent<LineRenderer>();
-            _pushLine.material = new Material(Shader.Find("Sprites/Default"));
+            _pushRenderer.material = new Material(Shader.Find("Sprites/Default"));
             previousPosition = Vector3.negativeInfinity;
             Assert.IsNotNull(_pad);
             Assert.IsNotNull(_playerCam);
             Assert.IsNotNull(_locomotion);
+            Assert.IsNotNull(_pushRenderer);
         }
 
         private void Update()
@@ -58,7 +60,6 @@ namespace Pinball
             if (_currentTarget != null)
             {
                 DrawLine();
-                _currentTarget.TargetMe(true);
                 if (_pad != null)
                 {
                     CheckPush();
@@ -114,8 +115,8 @@ namespace Pinball
             linePos[1] = transform.position;
             Vector3 direction = linePos[1] - linePos[0];
             linePos[2] = direction.normalized * 2f + transform.position;
-            _pushLine.positionCount = linePos.Length;
-            _pushLine.SetPositions(linePos);           
+            _pushRenderer.positionCount = linePos.Length;
+            _pushRenderer.SetPositions(linePos);           
         }
 
         private bool FindPushBelow()
@@ -175,11 +176,11 @@ namespace Pinball
             {
                 if (lStick.y < 0)
                 {
-                    return FindClosestAngle(_colliders[0].GetTargets(), currentDirection);
+                    return FindClosestAngle(_colliders[1].GetTargets(), currentDirection);
                 }
                 else
                 {
-                    return FindClosestAngle(_colliders[1].GetTargets(), currentDirection);
+                    return FindClosestAngle(_colliders[2].GetTargets(), currentDirection);
                 }
             }
             return null;

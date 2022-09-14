@@ -26,9 +26,11 @@ namespace Pinball
         [SerializeField]
         private float _yTargetOffset = 3f;
 
-
+        public float GetPullRange { get { return _pullRange; } }
         [SerializeField]
         private LayerMask _targetLayer;
+        [SerializeField]
+        private LineRenderer _pullRenderer;
         private PullTarget _currentTarget;
         private UltimateCharacterLocomotion _locomotion; 
         private List<PullTarget> _insideCollider;
@@ -40,9 +42,11 @@ namespace Pinball
             _insideCollider = new List<PullTarget>();
             _locomotion = GetComponent<UltimateCharacterLocomotion>();
             _pad = Gamepad.current;
+            Assert.IsNotNull(_pullRenderer);
             Assert.IsNotNull(_pad);
             Assert.IsNotNull(_playerCam);
             Assert.IsNotNull(_locomotion);
+            _pullRenderer.material = new Material(Shader.Find("Sprites/Default"));
 
         }
 
@@ -54,14 +58,22 @@ namespace Pinball
             }
             if(_currentTarget != null)
             {
-                _currentTarget.TargetMe(true);
+                DrawLine();
                 _isInRange = _currentTarget.IsInRange(transform.position, _pullRange);
                 if (_pad != null)
                 {
                     CheckPull();
                 }
             }
+        }
 
+        private void DrawLine()
+        {
+            Vector3[] linePos = new Vector3[2];
+            linePos[0] = _currentTarget.transform.position;
+            linePos[1] = transform.position;
+            _pullRenderer.positionCount = linePos.Length;
+            _pullRenderer.SetPositions(linePos);
         }
 
         private void CheckPull()
@@ -95,8 +107,6 @@ namespace Pinball
             _insideCollider.Remove(me);
         }
 
-
-
         private PullTarget ClosestToCenter()
         {
             PullTarget closest;
@@ -106,7 +116,6 @@ namespace Pinball
             Vector2 screenCenter = new Vector2(_playerCam.pixelWidth * half, _playerCam.pixelHeight * half);
             for (int i = 0; i < _insideCollider.Count; i++)
             {
-                _insideCollider[i].TargetMe(false);
                 Vector2 screenPoint = _playerCam.WorldToScreenPoint(_insideCollider[i].transform.position);
                 float newDist = Vector2.Distance(screenCenter, screenPoint);
                 if (newDist < distance)
@@ -127,10 +136,6 @@ namespace Pinball
             if (Physics.SphereCast(_playerCam.transform.position, _hitRadius, startDir, out hits, _maxRange, _targetLayer)
                 && hits.transform.TryGetComponent(out newTar))
             {
-                if(_currentTarget != null)
-                {
-                    _currentTarget.TargetMe(false);
-                }
                 _currentTarget = newTar;
                 return true;
             }
