@@ -9,8 +9,6 @@ namespace Pinball
     public class Pusher : MonoBehaviour
     {
         [SerializeField]
-        private Stamina _staminaRef;
-        [SerializeField]
         private Camera _playerCam;
         [SerializeField]
         private float _hitRadius;
@@ -227,11 +225,18 @@ namespace Pinball
             }
             return targets[minIndex].GetComponent<PullTarget>();
         }
+        private float GetPowerModDistanceCapped()
+        {
+            float distance = Vector3.Distance(transform.position, _currentTarget.transform.position);
+            float capMod = _maxRange /distance;
+            capMod *= _powerModifier;
+            return capMod;
+        }
 
         private void CheckPush()
         {
             float ltValue = _pad.leftTrigger.ReadValue();
-            if (ltValue > _ltThreshold && _staminaRef.ConsumeStamina(ltValue))
+            if (ltValue > _ltThreshold)
             {
                 Push(ltValue);
             }
@@ -240,7 +245,7 @@ namespace Pinball
         private void Push(float inputStr)
         {
             Vector3 targetDir = _currentTarget.transform.position - transform.position;
-            Vector3 applyMag = targetDir.normalized * _powerModifier * inputStr;
+            Vector3 applyMag = targetDir.normalized * GetPowerModDistanceCapped() * inputStr;
             _locomotion.AddForce(applyMag *-1, 1);
         }
     }

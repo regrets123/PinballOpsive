@@ -10,8 +10,6 @@ namespace Pinball
     public class Puller : MonoBehaviour
     {
         [SerializeField]
-        private Stamina _staminaRef;
-        [SerializeField]
         private Camera _playerCam;
         [SerializeField]
         private float _hitRadius;
@@ -79,7 +77,7 @@ namespace Pinball
         private void CheckPull()
         {
             float rtValue = _pad.rightTrigger.ReadValue();
-            if(rtValue > _rtThreshhold && _isInRange && _staminaRef.ConsumeStamina(rtValue))
+            if(rtValue > _rtThreshhold && _isInRange)
             {
                 Pull(rtValue);
             }
@@ -89,8 +87,16 @@ namespace Pinball
         {
             Vector3 raisedTarget = _currentTarget.transform.position + new Vector3(0, _yTargetOffset, 0);
             Vector3 targetDir = raisedTarget - transform.position;
-            Vector3 applyMag = targetDir.normalized * _powerModifier * inputStr;
+            Vector3 applyMag = targetDir.normalized * GetPowerModDistanceCapped() * inputStr;
             _locomotion.AddForce(applyMag, 1);
+        }
+
+        private float GetPowerModDistanceCapped()
+        {
+            float distance = Vector3.Distance(transform.position, _currentTarget.transform.position);
+            float capMod = _maxRange/ distance;
+            capMod *= _powerModifier;
+            return capMod;
         }
 
 

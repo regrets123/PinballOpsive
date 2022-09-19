@@ -6189,9 +6189,7 @@ GameObject:
   - component: {fileID: 1118355672}
   - component: {fileID: 1118355671}
   - component: {fileID: 1118355679}
-  - component: {fileID: 1118355680}
   - component: {fileID: 1118355682}
-  - component: {fileID: 1118355681}
   - component: {fileID: 1118355668}
   m_Layer: 31
   m_Name: Capsule
@@ -6811,54 +6809,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2995634c49c569c48b1e8a09b9d4f34f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _staminaRef: {fileID: 1118355680}
   _playerCam: {fileID: 1911078428}
   _hitRadius: 15
   _maxRange: 400
   _pullRange: 300
-  _powerModifier: 1.2
+  _powerModifier: 0.1
   _rtThreshhold: 0.01
   _yTargetOffset: 3
   _targetLayer:
     serializedVersion: 2
     m_Bits: 64
   _pullRenderer: {fileID: 2044432062}
---- !u!114 &1118355680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118355666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58b468bcb17bdfd4c8bf503f2a68b9ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxStamina: 500
-  _currentStamina: 500
-  _costPerUse: 0.7
-  _regenCooldown: 0.01
-  _regenRate: 5
-  _image: {fileID: 512920368}
---- !u!114 &1118355681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118355666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58b468bcb17bdfd4c8bf503f2a68b9ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxStamina: 300
-  _currentStamina: 300
-  _costPerUse: 0.7
-  _regenCooldown: 0.2
-  _regenRate: 1.5
-  _image: {fileID: 1862764256}
 --- !u!114 &1118355682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6871,12 +6832,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd3bb66490b9a149b2cdee71d73ff88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _staminaRef: {fileID: 1118355681}
   _playerCam: {fileID: 1911078428}
   _hitRadius: 15
   _maxRange: 200
   _pushRange: 300
-  _powerModifier: 1.2
+  _powerModifier: 0.1
   _ltThreshold: 0.1
   _lStickThreshold: 0.1
   _colliders: []
