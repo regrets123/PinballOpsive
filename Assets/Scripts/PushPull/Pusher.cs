@@ -24,6 +24,8 @@ namespace Pinball
         private float _lStickThreshold;
         [SerializeField]
         private PushCollider[] _colliders;
+        [SerializeField]
+        private PointSpawner _spawn;
 
         [SerializeField]
         private LayerMask _targetLayer;
