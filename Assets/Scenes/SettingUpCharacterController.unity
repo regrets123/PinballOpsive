@@ -1414,7 +1414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _direction: 0
-  _push: {fileID: 0}
+  _push: {fileID: 2123843661}
   _insideBox: []
 --- !u!65 &193847330
 BoxCollider:
@@ -9947,7 +9947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _direction: 1
-  _push: {fileID: 0}
+  _push: {fileID: 2123843661}
   _insideBox: []
 --- !u!1001 &1625959259
 PrefabInstance:
@@ -10795,7 +10795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _direction: 2
-  _push: {fileID: 0}
+  _push: {fileID: 2123843661}
   _insideBox: []
 --- !u!1001 &1771653656
 PrefabInstance:
@@ -14381,6 +14381,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2123843661 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9106473371017156748, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+  m_PrefabInstance: {fileID: 685750369}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bd3bb66490b9a149b2cdee71d73ff88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2123843663 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9106473371017156785, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
