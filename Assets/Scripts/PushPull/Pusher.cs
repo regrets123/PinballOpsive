@@ -2,6 +2,7 @@ using Opsive.UltimateCharacterController.Character;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Pinball
 {
@@ -35,7 +36,8 @@ namespace Pinball
         private UltimateCharacterLocomotion _locomotion;
         private Gamepad _pad;
      
-        private Vector3 previousPosition;
+        private Vector3 _previousPosition;
+        private Vector3 _currentVel;
 
         private void Awake()
         {
@@ -47,7 +49,8 @@ namespace Pinball
             _locomotion = GetComponent<UltimateCharacterLocomotion>();
             _pad = Gamepad.current;
             _pushRenderer.material = new Material(Shader.Find("Sprites/Default"));
-            previousPosition = Vector3.negativeInfinity;
+            _previousPosition = Vector3.negativeInfinity;
+            _currentVel = Vector3.negativeInfinity;
             Assert.IsNotNull(_pad);
             Assert.IsNotNull(_playerCam);
             Assert.IsNotNull(_locomotion);
@@ -65,7 +68,23 @@ namespace Pinball
                     CheckPush();
                 }
             }
-            previousPosition = transform.position;
+            _previousPosition = transform.position;
+        }
+
+        public void JumpPressSpawnPoint()
+        {
+            if (!_locomotion.Grounded)
+            {
+                _spawn.SpawnBelow();
+            }
+        }
+
+        public void JumpHoldSpawnPoint()
+        {
+            if(!_locomotion.Grounded && _currentVel != Vector3.negativeInfinity)
+            {
+                _spawn.SpawnAhead(_currentVel);
+            }
         }
 
         public void AddPushCollider(PushCollider collider, int index)
@@ -100,9 +119,9 @@ namespace Pinball
         private Vector3 CheckVelocityDirection()
         {
             Vector3 toReturn = Vector3.negativeInfinity;
-            if (previousPosition != Vector3.negativeInfinity && previousPosition != transform.position)
+            if (_previousPosition != Vector3.negativeInfinity && _previousPosition != transform.position)
             {
-                Vector3 currentDirection = previousPosition - transform.position;
+                Vector3 currentDirection = _previousPosition - transform.position;
                 toReturn = currentDirection.normalized;
             }
             return toReturn;

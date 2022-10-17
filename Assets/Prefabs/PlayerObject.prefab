@@ -323,6 +323,7 @@ GameObject:
   - component: {fileID: 9106473371017156750}
   - component: {fileID: 9106473371017156748}
   - component: {fileID: 9106473371017156751}
+  - component: {fileID: 685750371}
   m_Layer: 31
   m_Name: PlayerObject
   m_TagString: Player
@@ -659,25 +660,33 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 3f8891d3-1ddf-4c95-932b-78931d46f70a
-    m_ActionName: Gameplay/Horizontal[/Keyboard/a,/Keyboard/d,/DualSenseGamepadHID/leftStick/left,/DualSenseGamepadHID/leftStick/right]
+    m_ActionName: Gameplay/Horizontal[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 2b8eaacd-e265-46c9-9c9b-a76a7ceda54a
-    m_ActionName: Gameplay/Vertical[/Keyboard/s,/Keyboard/w,/DualSenseGamepadHID/leftStick/down,/DualSenseGamepadHID/leftStick/up]
+    m_ActionName: Gameplay/Vertical[/Keyboard/s,/Keyboard/w]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 8b8886fa-b298-4789-bfff-9551be33a5d4
-    m_ActionName: Gameplay/Mouse X[/DualSenseGamepadHID/rightStick/x,/Mouse/delta/x]
+    m_ActionName: Gameplay/Mouse X[/Mouse/delta/x]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 46cf35fd-8ad5-4550-b147-a37c20766c6c
-    m_ActionName: Gameplay/Mouse Y[/DualSenseGamepadHID/rightStick/y,/Mouse/delta/y]
+    m_ActionName: Gameplay/Mouse Y[/Mouse/delta/y]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2e6b07e4-7c76-4280-9981-37e59afe0402
+    m_ActionName: Gameplay/Fire1[/Mouse/leftButton,/Keyboard/leftCtrl]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f2ba4b0d-c10c-49cd-95af-6f4f2b1c210f
+    m_ActionName: Gameplay/Fire2[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9106473371017156785}
-        m_TargetAssemblyTypeName: Pinball.Puller, Assembly-CSharp
-        m_MethodName: OnFire1
-        m_Mode: 0
+      - m_Target: {fileID: 9106473371017156748}
+        m_TargetAssemblyTypeName: Pinball.Pusher, Assembly-CSharp
+        m_MethodName: JumpPressSpawnPoint
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -686,20 +695,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 2e6b07e4-7c76-4280-9981-37e59afe0402
-    m_ActionName: Gameplay/Fire1[/Mouse/leftButton,/Keyboard/leftCtrl,/DualSenseGamepadHID/rightTrigger]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f2ba4b0d-c10c-49cd-95af-6f4f2b1c210f
-    m_ActionName: Gameplay/Fire2[/Mouse/rightButton,/DualSenseGamepadHID/leftTrigger]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: bf80cade-3908-4c91-8b5d-2b41f96d6ee1
-    m_ActionName: Gameplay/Jump[/Keyboard/space,/DualSenseGamepadHID/buttonSouth]
+    m_ActionName: Gameplay/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 4d03000e-a711-421b-8fe6-4a0c58afd51b
-    m_ActionName: Gameplay/Reload[/Keyboard/r,/DualSenseGamepadHID/buttonWest]
+    m_ActionName: Gameplay/Reload[/Keyboard/r]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: ae11e709-a63b-42d8-9dfa-68bfb80d37d6
@@ -707,19 +708,19 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 9ba9e0c9-d352-41bb-a6e3-1769ca8da76f
-    m_ActionName: Gameplay/Crouch[/Keyboard/c,/DualSenseGamepadHID/rightStickPress]
+    m_ActionName: Gameplay/Crouch[/Keyboard/c]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 6f3b3740-4829-4925-aa23-b5e6844041e7
-    m_ActionName: Gameplay/Action[/Keyboard/f,/DualSenseGamepadHID/buttonEast]
+    m_ActionName: Gameplay/Action[/Keyboard/f]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 8474fdb0-3416-4b95-ac64-1ab0541a41f1
-    m_ActionName: Gameplay/SecondaryUse[/Keyboard/b,/DualSenseGamepadHID/leftShoulder]
+    m_ActionName: Gameplay/SecondaryUse[/Keyboard/b]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: ff7ac812-620b-46b4-a78b-cf611a295392
-    m_ActionName: Gameplay/Grenade[/Keyboard/g,/DualSenseGamepadHID/rightShoulder]
+    m_ActionName: Gameplay/Grenade[/Keyboard/g]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 7fcc99d0-a3de-42bd-8bbe-717ff751504b
@@ -759,7 +760,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 9beb1755-6e71-4107-b0bc-fecc75a3c194
-    m_ActionName: Gameplay/Equip Next Item[/Keyboard/e,/DualSenseGamepadHID/buttonNorth]
+    m_ActionName: Gameplay/Equip Next Item[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: f5755a65-4080-4788-a1b6-4011019f6b39
@@ -779,7 +780,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: a32e9336-e933-435c-86d9-db27aa17c1a2
-    m_ActionName: Gameplay/Toggle Perspective[/Keyboard/v,/DualSenseGamepadHID/leftStickPress]
+    m_ActionName: Gameplay/Toggle Perspective[/Keyboard/v]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 433b27f5-b792-44ab-ba79-e7c8c080da4f
@@ -791,19 +792,19 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: ecf3f50f-4040-4702-bed5-6d18596238eb
-    m_ActionName: Gameplay/Open Panel[/Keyboard/i,/DualSenseGamepadHID/start]
+    m_ActionName: Gameplay/Open Panel[/Keyboard/i]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 4bb0aa2b-32fc-4cee-881f-0089e59284fa
-    m_ActionName: Gameplay/Close Panel[/Keyboard/escape,/DualSenseGamepadHID/buttonEast]
+    m_ActionName: Gameplay/Close Panel[/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c09ec6d6-e353-4bde-a861-c6956be8627e
-    m_ActionName: Gameplay/Next[/Keyboard/t,/DualSenseGamepadHID/rightTrigger]
+    m_ActionName: Gameplay/Next[/Keyboard/t]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 3f2b06ce-1d78-43cd-ae3f-a8e880489a7d
-    m_ActionName: Gameplay/Previous[/Keyboard/r,/DualSenseGamepadHID/leftTrigger]
+    m_ActionName: Gameplay/Previous[/Keyboard/r]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: e00b285b-2d0e-44ad-acf6-f6d7d17a8641
@@ -835,15 +836,31 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 6423d408-e2aa-4add-aecd-b2234406bd22
-    m_ActionName: UI/Cancel[/Keyboard/escape,/DualSenseGamepadHID/buttonEast]
+    m_ActionName: UI/Cancel[/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: dfc8041a-02b4-44ed-a688-d2f11d9a6ef1
-    m_ActionName: UI/Submit[/Keyboard/enter,/DualSenseGamepadHID/buttonSouth]
+    m_ActionName: UI/Submit[/Keyboard/enter]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 09a456b2-56e6-48e7-b0f1-551758090963
-    m_ActionName: UI/Navigate[/DualSenseGamepadHID/leftStick/up,/DualSenseGamepadHID/rightStick/up,/DualSenseGamepadHID/leftStick/down,/DualSenseGamepadHID/rightStick/down,/DualSenseGamepadHID/leftStick/left,/DualSenseGamepadHID/rightStick/left,/DualSenseGamepadHID/leftStick/right,/DualSenseGamepadHID/rightStick/right,/DualSenseGamepadHID/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9106473371017156748}
+        m_TargetAssemblyTypeName: Pinball.Pusher, Assembly-CSharp
+        m_MethodName: JumpHoldSpawnPoint
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a129e334-31d2-4737-b57e-59d19ec18e39
+    m_ActionName: Gameplay/JumpHold
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Gameplay
@@ -861,7 +878,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2995634c49c569c48b1e8a09b9d4f34f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _staminaRef: {fileID: 9106473371017156750}
   _playerCam: {fileID: 0}
   _hitRadius: 15
   _maxRange: 400
@@ -903,7 +919,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd3bb66490b9a149b2cdee71d73ff88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _staminaRef: {fileID: 9106473371017156751}
   _playerCam: {fileID: 0}
   _hitRadius: 15
   _maxRange: 200
@@ -911,7 +926,11 @@ MonoBehaviour:
   _powerModifier: 1.2
   _ltThreshold: 0.1
   _lStickThreshold: 0.1
-  _colliders: []
+  _colliders:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _spawn: {fileID: 685750371}
   _targetLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -934,6 +953,22 @@ MonoBehaviour:
   _regenCooldown: 0.2
   _regenRate: 1.5
   _image: {fileID: 0}
+--- !u!114 &685750371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9106473371017156796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a7b57a2eb29c341b819cff89073607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pointPrefab: {fileID: 6341942430059598067, guid: f1f6859c2c108e94ea95b9f3cccc7dbb, type: 3}
+  _collideWithLayer:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &9106473371342688174
 GameObject:
   m_ObjectHideFlags: 0

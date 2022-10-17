@@ -87,7 +87,7 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
                     ""id"": ""bf80cade-3908-4c91-8b5d-2b41f96d6ee1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -328,6 +328,15 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
                     ""name"": ""Previous"",
                     ""type"": ""Button"",
                     ""id"": ""3f2b06ce-1d78-43cd-ae3f-a8e880489a7d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""JumpHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""a129e334-31d2-4737-b57e-59d19ec18e39"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1071,6 +1080,17 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
                     ""action"": ""Previous"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bdd7fda0-32f5-4f13-a676-8d7b3e42b9e4"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""JumpHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1668,6 +1688,7 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
         m_Gameplay_ClosePanel = m_Gameplay.FindAction("Close Panel", throwIfNotFound: true);
         m_Gameplay_Next = m_Gameplay.FindAction("Next", throwIfNotFound: true);
         m_Gameplay_Previous = m_Gameplay.FindAction("Previous", throwIfNotFound: true);
+        m_Gameplay_JumpHold = m_Gameplay.FindAction("JumpHold", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
@@ -1773,6 +1794,7 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_ClosePanel;
     private readonly InputAction m_Gameplay_Next;
     private readonly InputAction m_Gameplay_Previous;
+    private readonly InputAction m_Gameplay_JumpHold;
     public struct GameplayActions
     {
         private @CharacterInput m_Wrapper;
@@ -1811,6 +1833,7 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
         public InputAction @ClosePanel => m_Wrapper.m_Gameplay_ClosePanel;
         public InputAction @Next => m_Wrapper.m_Gameplay_Next;
         public InputAction @Previous => m_Wrapper.m_Gameplay_Previous;
+        public InputAction @JumpHold => m_Wrapper.m_Gameplay_JumpHold;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1922,6 +1945,9 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
                 @Previous.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPrevious;
                 @Previous.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPrevious;
                 @Previous.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPrevious;
+                @JumpHold.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJumpHold;
+                @JumpHold.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJumpHold;
+                @JumpHold.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJumpHold;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -2028,6 +2054,9 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
                 @Previous.started += instance.OnPrevious;
                 @Previous.performed += instance.OnPrevious;
                 @Previous.canceled += instance.OnPrevious;
+                @JumpHold.started += instance.OnJumpHold;
+                @JumpHold.performed += instance.OnJumpHold;
+                @JumpHold.canceled += instance.OnJumpHold;
             }
         }
     }
@@ -2200,6 +2229,7 @@ public partial class @CharacterInput : IInputActionCollection2, IDisposable
         void OnClosePanel(InputAction.CallbackContext context);
         void OnNext(InputAction.CallbackContext context);
         void OnPrevious(InputAction.CallbackContext context);
+        void OnJumpHold(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

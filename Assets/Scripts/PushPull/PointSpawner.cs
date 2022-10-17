@@ -7,11 +7,11 @@ namespace Pinball
         [SerializeField]
         private GameObject _pointPrefab;
         [SerializeField]
-        private LayerMask _collideWithMask;
+        private LayerMask _collideWithLayer;
         public PullTarget SpawnBelow()
         {
             Ray beam = new Ray(transform.position, Vector3.down);
-            if(Physics.Raycast(beam, out RaycastHit hit, 1000f, _collideWithMask))
+            if(Physics.Raycast(beam, out RaycastHit hit, 1000f, _collideWithLayer))
             {
                 return SpawnPoint(hit.point);
             }
@@ -21,7 +21,7 @@ namespace Pinball
         public PullTarget SpawnAhead(Vector3 velDir)
         {
             Ray beam = new Ray(transform.position, velDir);
-            if (Physics.Raycast(beam, out RaycastHit hit, 1000f, _collideWithMask))
+            if (Physics.Raycast(beam, out RaycastHit hit, 1000f, _collideWithLayer))
             {
                 return SpawnPoint(hit.point);
             }
