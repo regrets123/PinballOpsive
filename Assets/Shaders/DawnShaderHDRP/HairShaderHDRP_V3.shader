@@ -1,10 +1,9 @@
-// Made with Amplify Shader Editor
+// Made with Amplify Shader Editor v1.9.1.2
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 {
 	Properties
 	{
-		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		_TextNoise("TextNoise", 2D) = "white" {}
 		_NoiseTilling("Noise Tilling", Float) = 40
@@ -35,47 +34,69 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 		[ASEEnd]_TangentB("TangentB", Color) = (0.8489916,1,0,0.003921569)
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
-		[HideInInspector][ToggleUI]_AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
-		[HideInInspector] _StencilRef("Stencil Ref", Int) = 0
+		[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
+		[HideInInspector] _StencilRef("Stencil Ref", Int) = 0 // StencilUsage.Clear
 		[HideInInspector] _StencilWriteMask("Stencil Write Mask", Int) = 6
 		[HideInInspector] _StencilRefDepth("Stencil Ref Depth", Int) = 8
 		[HideInInspector] _StencilWriteMaskDepth("Stencil Write Mask Depth", Int) = 8
 		[HideInInspector] _StencilRefMV("Stencil Ref MV", Int) = 40
 		[HideInInspector] _StencilWriteMaskMV("Stencil Write Mask MV", Int) = 40
-		[HideInInspector] _StencilRefDistortionVec("Stencil Ref Distortion Vec", Int) = 4
-		[HideInInspector] _StencilWriteMaskDistortionVec("Stencil Write Mask Distortion Vec", Int) = 4
+		[HideInInspector] _StencilRefDistortionVec("Stencil Ref Distortion Vec", Int) = 2 // StencilUsage.DistortionVectors
+		[HideInInspector] _StencilWriteMaskDistortionVec("Stencil Write Mask Distortion Vec", Int) = 2 // StencilUsage.DistortionVectors
 		[HideInInspector] _StencilWriteMaskGBuffer("Stencil Write Mask GBuffer", Int) = 14
 		[HideInInspector] _StencilRefGBuffer("Stencil Ref GBuffer", Int) = 10
 		[HideInInspector] _ZTestGBuffer("ZTest GBuffer", Int) = 4
-		[HideInInspector] [ToggleUI] _RequireSplitLighting("Require Split Lighting", Float) = 0
-		[HideInInspector] [ToggleUI] _ReceivesSSR("Receives SSR", Float) = 1
+		[HideInInspector][ToggleUI] _RequireSplitLighting("Require Split Lighting", Float) = 0
+		[HideInInspector][ToggleUI] _ReceivesSSR("Receives SSR", Float) = 1
 		[HideInInspector] _SurfaceType("Surface Type", Float) = 0
 		[HideInInspector] _BlendMode("Blend Mode", Float) = 0
 		[HideInInspector] _SrcBlend("Src Blend", Float) = 1
 		[HideInInspector] _DstBlend("Dst Blend", Float) = 0
 		[HideInInspector] _AlphaSrcBlend("Alpha Src Blend", Float) = 1
 		[HideInInspector] _AlphaDstBlend("Alpha Dst Blend", Float) = 0
-		[HideInInspector] [ToggleUI] _ZWrite("ZWrite", Float) = 1
-		[HideInInspector] [ToggleUI] _TransparentZWrite("Transparent ZWrite", Float) = 0
+		[HideInInspector][ToggleUI] _ZWrite("ZWrite", Float) = 1
+		[HideInInspector][ToggleUI] _TransparentZWrite("Transparent ZWrite", Float) = 0
 		[HideInInspector] _CullMode("Cull Mode", Float) = 2
-		[HideInInspector] _TransparentSortPriority("Transparent Sort Priority", Int) = 0
-		[HideInInspector] [ToggleUI] _EnableFogOnTransparent("Enable Fog On Transparent", Float) = 1
-		[HideInInspector] _CullModeForward("Cull Mode Forward", Float) = 2
-		[HideInInspector] [Enum(Front, 1, Back, 2)] _TransparentCullMode("Transparent Cull Mode", Float) = 2
-		[HideInInspector] _ZTestDepthEqualForOpaque("ZTest Depth Equal For Opaque", Int) = 4
-		[HideInInspector] [Enum(UnityEngine.Rendering.CompareFunction)] _ZTestTransparent("ZTest Transparent", Float) = 4
-		[HideInInspector] [ToggleUI] _TransparentBackfaceEnable("Transparent Backface Enable", Float) = 0
-		[HideInInspector] [ToggleUI] _AlphaCutoffEnable("Alpha Cutoff Enable", Float) = 1
-		[HideInInspector] [ToggleUI] _UseShadowThreshold("Use Shadow Threshold", Float) = 0
-		[HideInInspector] [ToggleUI] _DoubleSidedEnable("Double Sided Enable", Float) = 1
-		[HideInInspector] [Enum(Flip, 0, Mirror, 1, None, 2)] _DoubleSidedNormalMode("Double Sided Normal Mode", Float) = 2
+		[HideInInspector]_TransparentSortPriority("Transparent Sort Priority", Float) = 0
+		[HideInInspector][ToggleUI] _EnableFogOnTransparent("Enable Fog", Float) = 1
+		[HideInInspector] _CullModeForward("Cull Mode Forward", Float) = 2 // This mode is dedicated to Forward to correctly handle backface then front face rendering thin transparent
+		[HideInInspector][Enum(UnityEditor.Rendering.HighDefinition.TransparentCullMode)] _TransparentCullMode("Transparent Cull Mode", Int) = 2// Back culling by default
+		[HideInInspector] _ZTestDepthEqualForOpaque("ZTest Depth Equal For Opaque", Int) = 4 // Less equal
+		[HideInInspector][Enum(UnityEngine.Rendering.CompareFunction)] _ZTestTransparent("ZTest Transparent", Int) = 4 // Less equal
+		[HideInInspector][ToggleUI] _TransparentBackfaceEnable("Transparent Backface Enable", Float) = 0
+		[HideInInspector][ToggleUI] _AlphaCutoffEnable("Alpha Cutoff Enable", Float) = 0
+		[HideInInspector][ToggleUI] _UseShadowThreshold("Use Shadow Threshold", Float) = 0
+		[HideInInspector][ToggleUI] _DoubleSidedEnable("Double Sided Enable", Float) = 1
+		[HideInInspector][Enum(Flip, 0, Mirror, 1, None, 2)] _DoubleSidedNormalMode("Double Sided Normal Mode", Float) = 2
 		[HideInInspector] _DoubleSidedConstants("DoubleSidedConstants", Vector) = ( 1, 1, -1, 0 )
+
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
 		//_TessValue( "Tess Max Tessellation", Range( 1, 32 ) ) = 16
 		//_TessMin( "Tess Min Distance", Float ) = 10
 		//_TessMax( "Tess Max Distance", Float ) = 25
 		//_TessEdgeLength ( "Tess Edge length", Range( 2, 50 ) ) = 16
 		//_TessMaxDisp( "Tess Max Displacement", Float ) = 25
+
+		[HideInInspector][ToggleUI] _TransparentWritingMotionVec("Transparent Writing MotionVec", Float) = 0
+		[HideInInspector][Enum(UnityEditor.Rendering.HighDefinition.OpaqueCullMode)] _OpaqueCullMode("Opaque Cull Mode", Int) = 2 // Back culling by default
+		[HideInInspector][ToggleUI] _EnableBlendModePreserveSpecularLighting("Enable Blend Mode Preserve Specular Lighting", Float) = 1
+		[HideInInspector][ToggleUI] _SupportDecals("Support Decals", Float) = 1.0
+		[HideInInspector][ToggleUI] _ReceivesSSRTransparent("Receives SSR Transparent", Float) = 0
+		[HideInInspector] _EmissionColor("Color", Color) = (1, 1, 1)
+		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 1
+
+		[HideInInspector][Enum(Auto, 0, On, 1, Off, 2)] _DoubleSidedGIMode("Double sided GI mode", Float) = 0 //DoubleSidedGIMode added in api 12x and higher
+
+		[HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
+        [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
+        [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
+
+		[HideInInspector][ToggleUI]_DepthOffsetEnable("Boolean", Float) = 0
+		[HideInInspector][ToggleUI]_ConservativeDepthOffsetEnable("Boolean", Float) = 0
+		[HideInInspector][ToggleUI]_TransparentDepthPrepassEnable("Boolean", Float) = 0
+		[HideInInspector][ToggleUI]_TransparentDepthPostpassEnable("Boolean", Float) = 0
+		[HideInInspector][ToggleUI]_AlphaToMask("Boolean", Float) = 0
+		[HideInInspector][ToggleUI]_AlphaToMaskInspectorValue("Boolean", Float) = 0
 	}
 
 	SubShader
@@ -88,9 +109,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 
 		HLSLINCLUDE
 		#pragma target 4.5
-		#pragma only_renderers d3d11 metal vulkan xboxone xboxseries playstation switch 
-		#pragma multi_compile_instancing
-		#pragma instancing_options renderinglayer
+		#pragma exclude_renderers glcore gles gles3 ps4 
 
 		#ifndef ASE_TESS_FUNCS
 		#define ASE_TESS_FUNCS
@@ -98,7 +117,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 		{
 			return tessValue;
 		}
-		
+
 		float CalcDistanceTessFactor (float4 vertex, float minDist, float maxDist, float tess, float4x4 o2w, float3 cameraPos )
 		{
 			float3 wpos = mul(o2w,vertex).xyz;
@@ -202,13 +221,16 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			Tags { "LightMode"="ForwardOnly" }
 
 			Blend [_SrcBlend] [_DstBlend], [_AlphaSrcBlend] [_AlphaDstBlend]
+
+			
+
 			Cull [_CullModeForward]
 			ZTest [_ZTestDepthEqualForOpaque]
 			ZWrite [_ZWrite]
 
 			Stencil
 			{
-				Ref [_StencilRef]
+				Ref [_StencilRefGBuffer]
 				WriteMask [_StencilWriteMask]
 				Comp Always
 				Pass Replace
@@ -217,56 +239,89 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			}
 
 
-			ColorMask [_ColorMaskTransparentVel] 1
+			
+
+			
+            ColorMask [_TransparentWritingMotionVec] 1
+            ColorMask [_ColorMaskTransparentVelTwo] 2
+		
 
 			HLSLPROGRAM
-			#pragma multi_compile USE_FPTL_LIGHTLIST USE_CLUSTERED_LIGHTLIST
-			#define REMOVE_CLUSTERED_LIGHTLIST
-			#define ASE_NEED_CULLFACE 1
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#define _AMBIENT_OCCLUSION 1
-			#define _ASE_HAIRDIRECTION 1
-			#define ASE_SRP_VERSION 100500
 
-			#define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            #pragma multi_compile USE_FPTL_LIGHTLIST USE_CLUSTERED_LIGHTLIST
+            #define REMOVE_CLUSTERED_LIGHTLIST
+            #define ASE_NEED_CULLFACE 1
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #define _AMBIENT_OCCLUSION 1
+            #define ASE_HAIRDIRECTION 1
+            #define ASE_SRP_VERSION 120107
+
+
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _ALPHATEST_ON
 
-			#define SHADERPASS SHADERPASS_FORWARD
+			#pragma multi_compile_fragment _ SHADOWS_SHADOWMASK
+            #pragma multi_compile_fragment SHADOW_LOW SHADOW_MEDIUM SHADOW_HIGH SHADOW_VERY_HIGH
+			#pragma multi_compile_fragment PROBE_VOLUMES_OFF PROBE_VOLUMES_L1 PROBE_VOLUMES_L2
+			#pragma multi_compile_fragment _ LIGHT_LAYERS
+			#pragma multi_compile_fragment SCREEN_SPACE_SHADOWS_OFF SCREEN_SPACE_SHADOWS_ON
 			#pragma multi_compile _ DEBUG_DISPLAY
 			#pragma multi_compile _ LIGHTMAP_ON
 			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
 			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
-			#pragma multi_compile _ SHADOWS_SHADOWMASK
-			#pragma multi_compile DECALS_OFF DECALS_3RT DECALS_4RT
-			#if !defined(REMOVE_CLUSTERED_LIGHTLIST)
-			#define USE_CLUSTERED_LIGHTLIST
-			#endif
-			#pragma multi_compile SHADOW_LOW SHADOW_MEDIUM SHADOW_HIGH
-
-			#if !defined(DEBUG_DISPLAY) && defined(_ALPHATEST_ON)
-			#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-			#endif
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-				#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_FORWARD
+		    #define HAS_LIGHTLOOP 1
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
+			#endif
 			#endif
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+		    #define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+				#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _DEFERRED_CAPABLE_MATERIAL
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
@@ -295,6 +350,8 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _RoughnessRoot;
 			float _SpecularShift;
 			float4 _EmissionColor;
+			float _AlphaCutoff;
+			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
 			float _AddPrecomputedVelocity;
 			#endif
@@ -313,6 +370,9 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -328,20 +388,30 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ZTestTransparent;
 			float _TransparentBackfaceEnable;
 			float _AlphaCutoffEnable;
-			float _AlphaCutoff;
 			float _UseShadowThreshold;
 			float _DoubleSidedEnable;
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
-			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			#ifdef ASE_TESSELLATION
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+		    // Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
 
 			sampler2D _TextNoise;
 			sampler2D _Root;
@@ -355,23 +425,30 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			sampler2D _Alpha;
 
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/Lighting.hlsl"
-			#define HAS_LIGHTLOOP
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/LightLoopDef.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/LightLoop.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/Lighting.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/LightLoopDef.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/LightLoop.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 
 			#pragma shader_feature _ISDYED_ON
 			#pragma shader_feature_local _ISNORMALID_ON
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
 
 			struct VertexInput
@@ -411,6 +488,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				#endif
 			};
 
+
 			inline float Dither4x4Bayer( int x, int y )
 			{
 				const float dither[ 16 ] = {
@@ -425,7 +503,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 
 			struct SurfaceDescription
 			{
-				float3 Albedo;
+				float3 BaseColor;
 				float3 Normal;
 				float3 BentNormal;
 				float3 HairStrandDirection;
@@ -479,7 +557,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				surfaceData.specularOcclusion = 1.0;
 
 				// surface data
-				surfaceData.diffuseColor =						surfaceDescription.Albedo;
+				surfaceData.diffuseColor =						surfaceDescription.BaseColor;
 				surfaceData.perceptualSmoothness =				surfaceDescription.Smoothness;
 				surfaceData.ambientOcclusion =					surfaceDescription.Occlusion;
 				surfaceData.transmittance =						surfaceDescription.Transmittance;
@@ -507,7 +585,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
 				#endif
 				surfaceData.hairStrandDirectionWS = -fragInputs.tangentToWorld[1].xyz;
-				#ifdef _ASE_HAIRDIRECTION
+				#ifdef ASE_HAIRDIRECTION
 				surfaceData.hairStrandDirectionWS = TransformTangentToWorld(surfaceDescription.HairStrandDirection, fragInputs.tangentToWorld);
 				#endif
 				surfaceData.hairStrandDirectionWS = normalize(surfaceData.hairStrandDirectionWS);
@@ -584,10 +662,10 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 
 				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
 
-				#ifdef _ASE_BAKEDGI
+				#ifdef ASE_BAKEDGI
 				builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
 				#endif
-				#ifdef _ASE_BAKEDBACKGI
+				#ifdef ASE_BAKEDBACKGI
 				builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
 				#endif
 
@@ -691,7 +769,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				return o;
 			}
 
-			#if defined(TESSELLATION_ON)
+			#if defined(ASE_TESSELLATION)
 			struct VertexControl
 			{
 				float3 positionOS : INTERNALTESSPOS;
@@ -902,7 +980,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				
 				float3 temp_cast_6 = (( _SpecularTint * tex2DNode50.r )).xxx;
 				
-				surfaceDescription.Albedo = ( _Brightness * staticSwitch139 ).rgb;
+				surfaceDescription.BaseColor = ( _Brightness * staticSwitch139 ).rgb;
 				surfaceDescription.Normal = staticSwitch291.rgb;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.Smoothness = ( lerpResult100 + lerpResult246 );
@@ -995,11 +1073,11 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 					else
 				#endif
 					{
-				#ifdef _SURFACE_TYPE_TRANSPARENT
+                #ifdef _SURFACE_TYPE_TRANSPARENT
 						uint featureFlags = LIGHT_FEATURE_MASK_FLAGS_TRANSPARENT;
-				#else
+                #else
 						uint featureFlags = LIGHT_FEATURE_MASK_FLAGS_OPAQUE;
-				#endif
+                #endif
 						LightLoopOutput lightLoopOutput;
 						LightLoop(V, posInput, preLightData, bsdfData, builtinData, featureFlags, lightLoopOutput);
 
@@ -1010,7 +1088,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 						diffuseLighting *= GetCurrentExposureMultiplier();
 						specularLighting *= GetCurrentExposureMultiplier();
 
-				#ifdef OUTPUT_SPLIT_LIGHTING
+                #ifdef OUTPUT_SPLIT_LIGHTING
 						if (_EnableSubsurfaceScattering != 0 && ShouldOutputSplitLighting(bsdfData))
 						{
 							outColor = float4(specularLighting, 1.0);
@@ -1022,10 +1100,10 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 							outDiffuseLighting = 0;
 						}
 						ENCODE_INTO_SSSBUFFER(surfaceData, posInput.positionSS, outSSSBuffer);
-				#else
+                #else
 						outColor = ApplyBlendMode(diffuseLighting, specularLighting, builtinData.opacity);
 						outColor = EvaluateAtmosphericScattering(posInput, V, outColor);
-				#endif
+                #endif
 
 				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
 						float4 VPASSpositionCS = float4(packedInput.vpassPositionCS.xy, 0.0, packedInput.vpassPositionCS.z);
@@ -1074,39 +1152,72 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 
 
 			HLSLPROGRAM
-			#define ASE_NEED_CULLFACE 1
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#define _AMBIENT_OCCLUSION 1
-			#define _ASE_HAIRDIRECTION 1
-			#define ASE_SRP_VERSION 100500
 
-			#define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            #define ASE_NEED_CULLFACE 1
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #define _AMBIENT_OCCLUSION 1
+            #define ASE_HAIRDIRECTION 1
+            #define ASE_SRP_VERSION 120107
+
+
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _ALPHATEST_ON
 
-			#define SHADERPASS SHADERPASS_DEPTH_ONLY
-			#define WRITE_NORMAL_BUFFER
 			#pragma multi_compile _ WRITE_MSAA_DEPTH
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-				#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_DEPTH_ONLY
+		    #define WRITE_NORMAL_BUFFER 1
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
+			#endif
 			#endif
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+			// Specific Material Define
+		    #define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+				#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _DEFERRED_CAPABLE_MATERIAL
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
@@ -1135,6 +1246,8 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _RoughnessRoot;
 			float _SpecularShift;
 			float4 _EmissionColor;
+			float _AlphaCutoff;
+			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
 			float _AddPrecomputedVelocity;
 			#endif
@@ -1153,6 +1266,9 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -1168,20 +1284,31 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ZTestTransparent;
 			float _TransparentBackfaceEnable;
 			float _AlphaCutoffEnable;
-			float _AlphaCutoff;
 			float _UseShadowThreshold;
 			float _DoubleSidedEnable;
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
-			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			#ifdef ASE_TESSELLATION
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+
 			sampler2D _Normal;
 			sampler2D _ID;
 			sampler2D _Root;
@@ -1189,18 +1316,27 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			sampler2D _TextNoise;
 
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 
 			#pragma shader_feature_local _ISNORMALID_ON
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
 
 			struct VertexInput
@@ -1356,7 +1492,6 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			VertexOutput VertexFunction(VertexInput inputMesh )
 			{
 				VertexOutput o;
-
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
@@ -1365,7 +1500,6 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord3.zw = 0;
-
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
@@ -1393,7 +1527,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				return o;
 			}
 
-			#if defined(TESSELLATION_ON)
+			#if defined(ASE_TESSELLATION)
 			struct VertexControl
 			{
 				float3 positionOS : INTERNALTESSPOS;
@@ -1576,6 +1710,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				#ifdef WRITE_MSAA_DEPTH
 				depthColor = packedInput.positionCS.z;
 				#endif
+
 				#elif defined(WRITE_MSAA_DEPTH)
 				outNormalBuffer = float4( 0.0, 0.0, 0.0, 1.0 );
 				depthColor = packedInput.positionCS.z;
@@ -1597,39 +1732,71 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			ColorMask 0
 
 			HLSLPROGRAM
-			#define ASE_NEED_CULLFACE 1
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#define _AMBIENT_OCCLUSION 1
-			#define _ASE_HAIRDIRECTION 1
-			#define ASE_SRP_VERSION 100500
 
-			#define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            #define ASE_NEED_CULLFACE 1
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #define _AMBIENT_OCCLUSION 1
+            #define ASE_HAIRDIRECTION 1
+            #define ASE_SRP_VERSION 120107
+
+
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _ALPHATEST_ON
 
-			#define SHADERPASS SHADERPASS_DEPTH_ONLY
-			#define SCENESELECTIONPASS
 			#pragma editor_sync_compilation
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-				#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_DEPTH_ONLY
+		    #define SCENESELECTIONPASS 1
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+				#define VARYINGS_NEED_CULLFACE
+			#endif
 			#endif
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+		    #define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+				#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _DEFERRED_CAPABLE_MATERIAL
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
@@ -1658,6 +1825,8 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _RoughnessRoot;
 			float _SpecularShift;
 			float4 _EmissionColor;
+			float _AlphaCutoff;
+			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
 			float _AddPrecomputedVelocity;
 			#endif
@@ -1676,6 +1845,9 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -1691,39 +1863,57 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ZTestTransparent;
 			float _TransparentBackfaceEnable;
 			float _AlphaCutoffEnable;
-			float _AlphaCutoff;
 			float _UseShadowThreshold;
 			float _DoubleSidedEnable;
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
-			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			#ifdef ASE_TESSELLATION
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+
 			sampler2D _Alpha;
 			sampler2D _TextNoise;
 
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/PickingSpaceTransforms.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 
 			
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
-
-			int _ObjectId;
-			int _PassValue;
 
 			struct VertexInput
 			{
@@ -1881,7 +2071,6 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord1.zw = 0;
-
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
@@ -1904,7 +2093,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				return o;
 			}
 
-			#if defined(TESSELLATION_ON)
+			#if defined(ASE_TESSELLATION)
 			struct VertexControl
 			{
 				float3 positionOS : INTERNALTESSPOS;
@@ -2067,37 +2256,68 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			ColorMask 0
 
 			HLSLPROGRAM
-			#define ASE_NEED_CULLFACE 1
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#define _AMBIENT_OCCLUSION 1
-			#define _ASE_HAIRDIRECTION 1
-			#define ASE_SRP_VERSION 100500
 
-			#define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            #define ASE_NEED_CULLFACE 1
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #define _AMBIENT_OCCLUSION 1
+            #define ASE_HAIRDIRECTION 1
+            #define ASE_SRP_VERSION 120107
+
+
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _ALPHATEST_ON
-
-			#define SHADERPASS SHADERPASS_SHADOWS
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-				#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_SHADOWS
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
+			#endif
 			#endif
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+		    #define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+			#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _DEFERRED_CAPABLE_MATERIAL
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
@@ -2126,6 +2346,8 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _RoughnessRoot;
 			float _SpecularShift;
 			float4 _EmissionColor;
+			float _AlphaCutoff;
+			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
 			float _AddPrecomputedVelocity;
 			#endif
@@ -2144,6 +2366,9 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -2159,35 +2384,55 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ZTestTransparent;
 			float _TransparentBackfaceEnable;
 			float _AlphaCutoffEnable;
-			float _AlphaCutoff;
 			float _UseShadowThreshold;
 			float _DoubleSidedEnable;
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
-			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			#ifdef ASE_TESSELLATION
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+
 			sampler2D _Alpha;
 			sampler2D _TextNoise;
 
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 
 			
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
 
 			struct VertexInput
@@ -2342,7 +2587,6 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			VertexOutput VertexFunction(VertexInput inputMesh )
 			{
 				VertexOutput o;
-
 				UNITY_SETUP_INSTANCE_ID(inputMesh);
 				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
@@ -2351,14 +2595,12 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord1.zw = 0;
-
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
 				float3 vertexValue =  defaultVertexValue ;
-
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
@@ -2374,7 +2616,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				return o;
 			}
 
-			#if defined(TESSELLATION_ON)
+			#if defined(ASE_TESSELLATION)
 			struct VertexControl
 			{
 				float3 positionOS : INTERNALTESSPOS;
@@ -2540,6 +2782,13 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				#elif defined(SCENESELECTIONPASS)
 				outColor = float4( _ObjectId, _PassValue, 1.0, 1.0 );
 				#endif
+
+                #if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
+				DecalPrepassData decalPrepassData;
+				decalPrepassData.geomNormalWS = surfaceData.geomNormalWS;
+				decalPrepassData.decalLayerMask = GetMeshRenderingDecalLayer();
+				EncodeIntoDecalPrepassBuffer(decalPrepassData, outDecalBuffer);
+                #endif
 			}
 
 			ENDHLSL
@@ -2555,37 +2804,68 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			Cull Off
 
 			HLSLPROGRAM
-			#define ASE_NEED_CULLFACE 1
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#define _AMBIENT_OCCLUSION 1
-			#define _ASE_HAIRDIRECTION 1
-			#define ASE_SRP_VERSION 100500
 
-			#define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            #define ASE_NEED_CULLFACE 1
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #define _AMBIENT_OCCLUSION 1
+            #define ASE_HAIRDIRECTION 1
+            #define ASE_SRP_VERSION 120107
+
+
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
-			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _ALPHATEST_ON
-
-			#define SHADERPASS SHADERPASS_LIGHT_TRANSPORT
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-				#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_LIGHT_TRANSPORT
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
+			#endif
 			#endif
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+		    #define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+			#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _DEFERRED_CAPABLE_MATERIAL
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
@@ -2614,6 +2894,8 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _RoughnessRoot;
 			float _SpecularShift;
 			float4 _EmissionColor;
+			float _AlphaCutoff;
+			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
 			float _AddPrecomputedVelocity;
 			#endif
@@ -2632,6 +2914,9 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -2647,18 +2932,17 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ZTestTransparent;
 			float _TransparentBackfaceEnable;
 			float _AlphaCutoffEnable;
-			float _AlphaCutoff;
 			float _UseShadowThreshold;
 			float _DoubleSidedEnable;
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
-			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			#ifdef ASE_TESSELLATION
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
 
@@ -2669,6 +2953,17 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 
 			float unity_OneOverOutputBoost;
 			float unity_MaxOutputValue;
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
 
 			sampler2D _TextNoise;
 			sampler2D _Root;
@@ -2682,19 +2977,28 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			sampler2D _Alpha;
 
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
 			#pragma shader_feature _ISDYED_ON
 			#pragma shader_feature_local _ISNORMALID_ON
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
 
 			struct VertexInput
@@ -2732,7 +3036,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 
 			struct SurfaceDescription
 			{
-				float3 Albedo;
+				float3 BaseColor;
 				float3 Normal;
 				float3 BentNormal;
 				float3 HairStrandDirection;
@@ -2780,7 +3084,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				surfaceData.specularOcclusion = 1.0;
 
 				// surface data
-				surfaceData.diffuseColor =						surfaceDescription.Albedo;
+				surfaceData.diffuseColor =						surfaceDescription.BaseColor;
 				surfaceData.perceptualSmoothness =				surfaceDescription.Smoothness;
 				surfaceData.ambientOcclusion =					surfaceDescription.Occlusion;
 				surfaceData.transmittance =						surfaceDescription.Transmittance;
@@ -2808,7 +3112,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
 				#endif
 				surfaceData.hairStrandDirectionWS = -fragInputs.tangentToWorld[1].xyz;
-				#ifdef _ASE_HAIRDIRECTION
+				#ifdef ASE_HAIRDIRECTION
 				surfaceData.hairStrandDirectionWS = TransformTangentToWorld(surfaceDescription.HairStrandDirection, fragInputs.tangentToWorld);
 				#endif
 				surfaceData.hairStrandDirectionWS = normalize(surfaceData.hairStrandDirectionWS);
@@ -2922,7 +3226,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				return o;
 			}
 
-			#if defined(TESSELLATION_ON)
+			#if defined(ASE_TESSELLATION)
 			struct VertexControl
 			{
 				float3 positionOS : INTERNALTESSPOS;
@@ -3084,7 +3388,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				
 				float3 temp_cast_6 = (( _SpecularTint * tex2DNode50.r )).xxx;
 				
-				surfaceDescription.Albedo = ( _Brightness * staticSwitch139 ).rgb;
+				surfaceDescription.BaseColor = ( _Brightness * staticSwitch139 ).rgb;
 				surfaceDescription.Normal = staticSwitch291.rgb;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.Smoothness = ( lerpResult100 + lerpResult246 );
@@ -3147,41 +3451,74 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 
 
 			HLSLPROGRAM
-			#define ASE_NEED_CULLFACE 1
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#define _AMBIENT_OCCLUSION 1
-			#define _ASE_HAIRDIRECTION 1
-			#define ASE_SRP_VERSION 100500
 
-			#define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            #define ASE_NEED_CULLFACE 1
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #define _AMBIENT_OCCLUSION 1
+            #define ASE_HAIRDIRECTION 1
+            #define ASE_SRP_VERSION 120107
+
+
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local_fragment _ _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _ALPHATEST_ON
 
-			#define SHADERPASS SHADERPASS_MOTION_VECTORS
-			#define WRITE_NORMAL_BUFFER
-			#pragma multi_compile _ WRITE_MSAA_DEPTH
+			#pragma multi_compile _ WRITE_NORMAL_BUFFER
+			#pragma multi_compile_fragment _ WRITE_MSAA_DEPTH
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
-				#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_MOTION_VECTORS
+		    #define WRITE_NORMAL_BUFFER 1
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
+			#endif
 			#endif
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+		    #define _MATERIAL_FEATURE_HAIR_KAJIYA_KAY 1
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+			#define WRITE_NORMAL_BUFFER
 			#endif
-		
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(SHADER_LIT) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _DEFERRED_CAPABLE_MATERIAL
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#endif
+
 			CBUFFER_START( UnityPerMaterial )
 			float4 _TangentB;
 			float4 _Flow_ST;
@@ -3208,6 +3545,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _RoughnessRoot;
 			float _SpecularShift;
 			float4 _EmissionColor;
+			float _AlphaCutoff;
 			float _RenderQueueType;
 			#ifdef _ADD_PRECOMPUTED_VELOCITY
 			float _AddPrecomputedVelocity;
@@ -3230,6 +3568,9 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -3245,32 +3586,53 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 			float _ZTestTransparent;
 			float _TransparentBackfaceEnable;
 			float _AlphaCutoffEnable;
-			float _AlphaCutoff;
 			float _UseShadowThreshold;
 			float _DoubleSidedEnable;
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
-			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			#ifdef ASE_TESSELLATION
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+
 			sampler2D _Normal;
 			sampler2D _ID;
 			sampler2D _Root;
 			sampler2D _Alpha;
 			sampler2D _TextNoise;
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Hair/Hair.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
 
 			#pragma shader_feature_local _ISNORMALID_ON
 
@@ -3520,7 +3882,7 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				return o;
 			}
 
-			#if defined(TESSELLATION_ON)
+			#if defined(ASE_TESSELLATION)
 			struct VertexControl
 			{
 				float3 positionOS : INTERNALTESSPOS;
@@ -3714,22 +4076,42 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 				if( forceNoMotion )
 					outMotionVector = float4( 2.0, 0.0, 0.0, 0.0 );
 
-				#ifdef WRITE_NORMAL_BUFFER
-				EncodeIntoNormalBuffer( ConvertSurfaceDataToNormalData( surfaceData ), posInput.positionSS, outNormalBuffer );
-
+				// Depth and Alpha to coverage
 				#ifdef WRITE_MSAA_DEPTH
-				depthColor = packedInput.vmeshPositionCS.z;
-				#endif
-				#elif defined(WRITE_MSAA_DEPTH)
-				outNormalBuffer = float4( 0.0, 0.0, 0.0, 1.0 );
-				depthColor = packedInput.vmeshPositionCS.z;
+					// In case we are rendering in MSAA, reading the an MSAA depth buffer is way too expensive. To avoid that, we export the depth to a color buffer
+					depthColor = packedInput.vmeshPositionCS.z;
+					#ifdef _ALPHATOMASK_ON
+					// Alpha channel is used for alpha to coverage
+					depthColor.a = SharpenAlpha(builtinData.opacity, builtinData.alphaClipTreshold);
+					#endif
 				#endif
 
-				#ifdef _DEPTHOFFSET_ON
+				// Normal Buffer Processing
+				#ifdef WRITE_NORMAL_BUFFER
+					EncodeIntoNormalBuffer(ConvertSurfaceDataToNormalData(surfaceData), outNormalBuffer);
+				#endif
+
+				#if defined(WRITE_DECAL_BUFFER)
+					DecalPrepassData decalPrepassData;
+					#ifdef _DISABLE_DECALS
+					ZERO_INITIALIZE(DecalPrepassData, decalPrepassData);
+					#else
+					decalPrepassData.geomNormalWS = surfaceData.geomNormalWS;
+					decalPrepassData.decalLayerMask = GetMeshRenderingDecalLayer();
+					#endif
+					EncodeIntoDecalPrepassBuffer(decalPrepassData, outDecalBuffer);
+
+					#if ASE_SRP_VERSION >= 120107
+					// make sure we don't overwrite light layers
+					outDecalBuffer.w = (GetMeshRenderingLightLayer() & 0x000000FF) / 255.0;
+					#endif
+				#endif
+
+                #ifdef _DEPTHOFFSET_ON
 				outputDepth = posInput.deviceDepth;
-				#endif
-			}
+                #endif
 
+			}
 			ENDHLSL
 		}
 		
@@ -3737,73 +4119,72 @@ Shader "DawnShaderHDRP/HairShaderHDRP_V3"
 	CustomEditor "Rendering.HighDefinition.LightingShaderGraphGUI"
 	FallBack "Hidden/Shader Graph/FallbackError"
 	
-	
+	Fallback Off
 }
 /*ASEBEGIN
-Version=18933
-2560;0;2560;1059;2979.302;807.8789;1.3;True;False
+Version=19102
 Node;AmplifyShaderEditor.CommentaryNode;137;-2844.43,-517.2213;Inherit;False;2349.419;886.9131;Base Color;17;91;90;145;87;138;86;140;82;89;146;85;83;88;81;139;290;292;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.RangedFloatNode;103;-1700.661,1312.42;Float;False;Property;_MipBias;MipBias;24;0;Create;True;0;0;0;False;0;False;-1;-1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.CommentaryNode;133;-1495.939,994.0795;Inherit;False;1316.427;1112.47;Normal;9;105;265;50;108;106;104;276;277;291;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;134;-1564.779,2261.786;Inherit;False;1398.479;619.254;Opacity;7;178;110;164;112;111;49;177;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.TexCoordVertexDataNode;86;-2792.916,-454.7307;Inherit;False;0;2;0;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;87;-2764.365,-314.2816;Float;False;Property;_NoiseTilling;Noise Tilling;1;0;Create;True;0;0;0;False;0;False;40;24;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;50;-1410.245,1341.802;Inherit;True;Property;_ID;ID;7;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;104;-1081.636,1356.952;Float;False;Property;_TangentA;TangentA;25;0;Create;True;0;0;0;False;0;False;0,0.6206355,0.8773585,0.003921569;0,0.1761894,0.6415094,0.003921569;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;50;-1410.245,1341.802;Inherit;True;Property;_ID;ID;7;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;105;-1081.036,1560.152;Float;False;Property;_TangentB;TangentB;26;0;Create;True;0;0;0;False;0;False;0.8489916,1,0,0.003921569;0.05117477,0.2913551,0.4339623,0.003921569;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TexCoordVertexDataNode;86;-2792.916,-454.7307;Inherit;False;0;2;0;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.CommentaryNode;134;-1564.779,2261.786;Inherit;False;1398.479;619.254;Opacity;7;178;110;164;112;111;49;177;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.RangedFloatNode;87;-2764.365,-314.2816;Float;False;Property;_NoiseTilling;Noise Tilling;1;0;Create;True;0;0;0;False;0;False;40;24;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;106;-830.8438,1463.335;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;111;-1460.274,2651.064;Float;False;Property;_DitherBoost;Dither Boost;17;0;Create;True;0;0;0;False;0;False;45;7.8;0;100;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;49;-1517.779,2421.785;Inherit;True;Property;_Alpha;Alpha;6;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.CommentaryNode;102;-1941.949,503.0926;Inherit;False;834.4378;441.6938;Roughness;6;100;99;98;246;247;250;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.SamplerNode;48;-2393.542,639.9922;Inherit;True;Property;_Root;Root;2;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;88;-2567.916,-402.7306;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.OneMinusNode;247;-1796.197,728.7087;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;98;-1885.482,544.894;Float;False;Property;_RoughnessTip;Roughness Tip;20;0;Create;True;0;0;0;False;0;False;0.4;0.28;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;99;-1889.51,854.7863;Float;False;Property;_RoughnessRoot;Roughness Root;19;0;Create;True;0;0;0;False;0;False;0.25;0.2;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;276;-1412.673,1067.643;Inherit;True;Property;_Normal;Normal;9;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.NormalizeNode;108;-772.5925,1367.073;Inherit;False;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;85;-2396.254,-456.121;Inherit;True;Property;_TextNoise;TextNoise;0;0;Create;True;0;0;0;False;0;False;-1;dfeb1ce67808dcd4cb71e8ed64a757b1;dfeb1ce67808dcd4cb71e8ed64a757b1;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;276;-1412.673,1067.643;Inherit;True;Property;_Normal;Normal;9;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;98;-1885.482,544.894;Float;False;Property;_RoughnessTip;Roughness Tip;20;0;Create;True;0;0;0;False;0;False;0.4;0.28;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;112;-1086.756,2404.457;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;99;-1889.51,854.7863;Float;False;Property;_RoughnessRoot;Roughness Root;19;0;Create;True;0;0;0;False;0;False;0.25;0.2;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;247;-1796.197,728.7087;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NormalizeNode;108;-772.5925,1367.073;Inherit;False;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;177;-1458.204,2793.987;Float;False;Property;_OpacityBoost;Opacity Boost;16;0;Create;True;0;0;0;False;0;False;45;4.8;0;100;0;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;100;-1533.41,559.0867;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DitheringNode;110;-905.354,2370.272;Inherit;False;0;True;4;0;FLOAT;0;False;1;SAMPLER2D;;False;2;FLOAT4;0,0,0,0;False;3;SAMPLERSTATE;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;246;-1548.197,752.7087;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;277;-555.8052,1271.716;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;89;-1530.65,-447.3879;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;264;-658.56,875.796;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;90;-887.0918,-429.6995;Float;False;Property;_Brightness;Brightness;18;0;Create;True;0;0;0;False;0;False;2;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;292;-1350.401,-216.3792;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.LerpOp;83;-2088.311,-162.544;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;138;-1667.724,138.4317;Inherit;True;Property;_HairBaseColor;Hair Base Color;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.OneMinusNode;164;-661.6613,2375.45;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.StaticSwitch;291;-422.1241,1069.537;Inherit;False;Property;_isNormalID;is Normal ID;10;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.StaticSwitch;139;-1147.085,-456.719;Inherit;False;Property;_isDyed;isDyed;12;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;False;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;260;-1042.893,884.2885;Float;False;Property;_SpecularShift;Specular Shift;23;0;Create;True;0;0;0;False;0;False;0.7;2.1;0;5;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;290;-1692.356,-335.9361;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;136;-662.2924,777.6935;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;282;-168.387,309.0742;Inherit;True;Property;_AO;AO;11;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.LerpOp;140;-1769.81,-167.9768;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;81;-2376.946,-245.5373;Float;False;Property;_RootColor;Root Color;15;0;Create;True;0;0;0;False;0;False;0.3113208,0.184846,0.1072001,0;0.4352941,0,0.2253746,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;135;-1044.939,781.9473;Float;False;Property;_SpecularTint;Specular Tint;22;0;Create;True;0;0;0;False;0;False;0.7;2.1;0;5;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;145;-2024.293,192.6334;Inherit;False;Property;_DyedColor;Dyed Color;13;0;Create;True;0;0;0;False;0;False;1,0,0,0;1,0.7215686,0.7337008,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.LerpOp;140;-1769.81,-167.9768;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.ColorNode;82;-2380.186,-57.84063;Float;False;Property;_TipColor;Tip Color;14;0;Create;True;0;0;0;False;0;False;0.1226415,0.06746172,0.03297437,0;0,0.691252,1,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;261;-1029.002,604.1719;Float;False;Property;_TransmitionPower;Transmition Power;21;0;Create;True;0;0;0;False;0;False;0.05;2.1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;250;-1314.197,646.7087;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;178;-1155.099,2679.15;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;81;-2376.946,-245.5373;Float;False;Property;_RootColor;Root Color;15;0;Create;True;0;0;0;False;0;False;0.3113208,0.184846,0.1072001,0;0.4352941,0,0.2253746,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;265;-1457.548,1871.705;Inherit;True;Property;_Flow;Flow;8;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;263;-647.8862,504.0668;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;262;-1034.346,398.4792;Inherit;True;Property;_Depth;Depth;4;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;91;-688.9275,-339.3764;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;265;-1457.548,1871.705;Inherit;True;Property;_Flow;Flow;8;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;146;-2406.141,155.7803;Inherit;True;Property;_DyeMask;DyeMask;5;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;257;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;TransparentDepthPrepass;0;6;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-24;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;251;620.9761,577.2673;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;12;DawnShaderHDRP/HairShaderHDRP_V3;e4fe21624ace6de4b9fbaabdda0c51de;True;ForwardOnly;0;0;ForwardOnly;27;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;0;True;-18;0;True;-19;1;0;True;-20;0;True;-21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-27;False;False;False;True;True;True;True;True;0;True;-43;False;False;False;False;False;True;True;0;True;-3;255;False;-1;255;True;-4;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;0;True;-22;True;0;True;-29;False;True;1;LightMode=ForwardOnly;False;False;0;;0;0;Standard;34;Surface Type;0;0;  Preserve Specular Lighting;1;0;  Receive Fog;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  Transparent Writes Motion Vector;0;0;  Depth Write;0;0;  Cull Mode;0;0;  Depth Test;4;0;Double-Sided;1;0;Alpha Clipping;1;0;  Use Shadow Threshold;0;0;Receive Decals;1;0;Receives SSR;1;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Geometric Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;Use Light Facing Normal;0;0;DOTS Instancing;0;0;Support LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,-1;0;  Type;0;0;  Tess;16,False,-1;0;  Min;10,False,-1;0;  Max;25,False,-1;0;  Edge Length;16,False,-1;0;  Max Displacement;25,False,-1;0;Vertex Position;1;0;0;9;True;True;True;True;True;False;False;False;True;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;259;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;MotionVectors;0;8;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;0;True;-7;255;False;-1;255;True;-8;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;252;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;DepthForwardOnly;0;1;DepthForwardOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-24;False;False;False;False;False;False;False;False;False;True;True;0;True;-5;255;False;-1;255;True;-6;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;False;False;True;1;LightMode=DepthForwardOnly;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;258;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;TransparentDepthPostpass;0;7;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-24;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;254;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;ShadowCaster;0;3;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-24;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;255;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;META;0;4;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;253;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;SceneSelectionPass;0;2;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;256;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;TransparentBackface;0;5;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;0;True;-18;0;True;-19;1;0;True;-20;0;True;-21;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;False;True;True;True;True;True;0;True;-43;False;False;False;False;False;False;False;True;0;True;-22;True;0;True;-30;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;91;-688.9275,-339.3764;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;145;-2024.293,192.6334;Inherit;False;Property;_DyedColor;Dyed Color;13;0;Create;True;0;0;0;False;0;False;1,0,0,0;1,0.7215686,0.7337008,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;261;-1029.002,604.1719;Float;False;Property;_TransmitionPower;Transmition Power;21;0;Create;True;0;0;0;False;0;False;0.05;2.1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;90;-887.0918,-429.6995;Float;False;Property;_Brightness;Brightness;18;0;Create;True;0;0;0;False;0;False;2;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;264;-658.56,875.796;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;136;-662.2924,777.6935;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;292;-1350.401,-216.3792;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SamplerNode;282;-168.387,309.0742;Inherit;True;Property;_AO;AO;11;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.LerpOp;83;-2088.311,-162.544;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SamplerNode;138;-1667.724,138.4317;Inherit;True;Property;_HairBaseColor;Hair Base Color;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;MipBias;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;89;-1530.65,-447.3879;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.StaticSwitch;291;-422.1241,1069.537;Inherit;False;Property;_isNormalID;is Normal ID;10;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.StaticSwitch;139;-1147.085,-456.719;Inherit;False;Property;_isDyed;isDyed;12;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;False;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;290;-1692.356,-335.9361;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.OneMinusNode;164;-661.6613,2375.45;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;260;-1042.893,884.2885;Float;False;Property;_SpecularShift;Specular Shift;23;0;Create;True;0;0;0;False;0;False;0.7;2.1;0;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;254;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;ShadowCaster;0;3;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;8;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps5;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;255;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;META;0;4;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;8;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps5;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;253;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;SceneSelectionPass;0;2;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;8;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps5;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;257;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;TransparentDepthPrepass;0;6;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;8;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps5;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;1;False;;1;False;;7;False;;3;False;;1;False;;1;False;;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;251;620.9761,577.2673;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;20;DawnShaderHDRP/HairShaderHDRP_V3;e4fe21624ace6de4b9fbaabdda0c51de;True;ForwardOnly;0;0;ForwardOnly;27;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;8;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps5;switch;0;False;True;1;0;True;_SrcBlend;0;True;_DstBlend;1;0;True;_AlphaSrcBlend;0;True;_AlphaDstBlend;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_TransparentWritingMotionVec;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;True;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;1;False;;1;False;;7;False;;1;False;;1;False;;1;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=ForwardOnly;False;False;0;;0;0;Standard;33;Surface Type;0;0;  Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  Depth Write;0;0;  Cull Mode;0;0;  Depth Test;4;0;Double-Sided;1;0;Alpha Clipping;1;0;  Use Shadow Threshold;0;0;Receive Decals;1;0;Receives SSR;1;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Geometric Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;Use Light Facing Normal;0;0;DOTS Instancing;0;0;GPU Instancing;1;0;LOD CrossFade;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;1;0;0;9;True;True;True;True;True;False;False;False;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;259;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;MotionVectors;0;8;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;8;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps5;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;1;False;;1;False;;7;False;;1;False;;1;False;;1;False;;False;False;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;252;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;DepthForwardOnly;0;1;DepthForwardOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;8;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps5;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;1;False;;1;False;;7;False;;1;False;;1;False;;1;False;;False;True;1;False;;False;False;True;1;LightMode=DepthForwardOnly;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;258;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;TransparentDepthPostpass;0;7;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;8;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps5;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;256;-15.49403,405.2581;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;e4fe21624ace6de4b9fbaabdda0c51de;True;TransparentBackface;0;5;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=HDLitShader=RenderType;Queue=Geometry=Queue=0;True;5;True;8;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps5;switch;0;False;True;1;0;True;_SrcBlend;0;True;_DstBlend;1;0;True;_AlphaSrcBlend;0;True;_AlphaDstBlend;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;True;_TransparentWritingMotionVec;False;True;True;True;True;True;0;True;_ColorMaskTransparentVelTwo;False;False;False;False;False;True;0;True;_ZWrite;True;0;True;_ZTestTransparent;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
 WireConnection;50;2;103;0
 WireConnection;106;0;104;0
 WireConnection;106;1;105;0
@@ -3811,11 +4192,11 @@ WireConnection;106;2;50;1
 WireConnection;49;2;103;0
 WireConnection;88;0;86;0
 WireConnection;88;1;87;0
-WireConnection;247;0;48;1
-WireConnection;108;0;106;0
 WireConnection;85;1;88;0
 WireConnection;112;0;49;1
 WireConnection;112;1;111;0
+WireConnection;247;0;48;1
+WireConnection;108;0;106;0
 WireConnection;100;1;98;0
 WireConnection;100;2;48;1
 WireConnection;110;0;112;0
@@ -3824,25 +4205,6 @@ WireConnection;246;1;99;0
 WireConnection;246;2;247;0
 WireConnection;277;0;108;0
 WireConnection;277;1;276;0
-WireConnection;89;0;140;0
-WireConnection;89;1;85;1
-WireConnection;264;0;260;0
-WireConnection;264;1;50;1
-WireConnection;292;0;290;0
-WireConnection;292;1;138;0
-WireConnection;83;0;81;0
-WireConnection;83;1;82;0
-WireConnection;83;2;48;1
-WireConnection;138;2;103;0
-WireConnection;164;0;110;0
-WireConnection;291;1;276;0
-WireConnection;291;0;277;0
-WireConnection;139;1;292;0
-WireConnection;139;0;89;0
-WireConnection;290;0;85;1
-WireConnection;290;1;83;0
-WireConnection;136;0;135;0
-WireConnection;136;1;50;1
 WireConnection;140;0;83;0
 WireConnection;140;1;145;0
 WireConnection;140;2;146;1
@@ -3854,6 +4216,25 @@ WireConnection;263;0;262;0
 WireConnection;263;1;261;0
 WireConnection;91;0;90;0
 WireConnection;91;1;139;0
+WireConnection;264;0;260;0
+WireConnection;264;1;50;1
+WireConnection;136;0;135;0
+WireConnection;136;1;50;1
+WireConnection;292;0;290;0
+WireConnection;292;1;138;0
+WireConnection;83;0;81;0
+WireConnection;83;1;82;0
+WireConnection;83;2;48;1
+WireConnection;138;2;103;0
+WireConnection;89;0;140;0
+WireConnection;89;1;85;1
+WireConnection;291;1;276;0
+WireConnection;291;0;277;0
+WireConnection;139;1;292;0
+WireConnection;139;0;89;0
+WireConnection;290;0;85;1
+WireConnection;290;1;83;0
+WireConnection;164;0;110;0
 WireConnection;251;0;91;0
 WireConnection;251;1;291;0
 WireConnection;251;3;250;0
@@ -3865,4 +4246,4 @@ WireConnection;251;9;164;0
 WireConnection;251;16;136;0
 WireConnection;251;17;264;0
 ASEEND*/
-//CHKSM=D00EDC210E4D5B703CE1A1EADA2DD09CDA5389CC
+//CHKSM=185CEDA8321B5366519D58DD7360BD964AFC6DB8

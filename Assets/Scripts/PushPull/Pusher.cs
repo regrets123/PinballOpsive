@@ -25,8 +25,8 @@ namespace Pinball
         private float _lStickThreshold;
         [SerializeField]
         private PushCollider[] _colliders;
-        [SerializeField]
-        private PointSpawner _spawn;
+        //[SerializeField]
+        //private PointSpawner _spawn;
 
         [SerializeField]
         private LayerMask _targetLayer;
@@ -73,18 +73,18 @@ namespace Pinball
 
         public void JumpPressSpawnPoint()
         {
-            if (!_locomotion.Grounded)
-            {
-                _spawn.SpawnBelow();
-            }
+            //if (!_locomotion.Grounded)
+            //{
+            //    _spawn.SpawnBelow();
+            //}
         }
 
         public void JumpHoldSpawnPoint()
         {
-            if(!_locomotion.Grounded && _currentVel != Vector3.negativeInfinity)
-            {
-                _spawn.SpawnAhead(_currentVel);
-            }
+            //if(!_locomotion.Grounded && _currentVel != Vector3.negativeInfinity)
+            //{
+            //    _spawn.SpawnAhead(_currentVel);
+            //}
         }
 
         public void AddPushCollider(PushCollider collider, int index)

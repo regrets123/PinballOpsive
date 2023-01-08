@@ -7,7 +7,7 @@ AvatarMask:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FemaleAvatarMask
-  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Mask: 01000000000000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
   m_Elements:
   - m_Path: 
     m_Weight: 1
@@ -30,17 +30,17 @@ AvatarMask:
   - m_Path: HeadBase
     m_Weight: 1
   - m_Path: HeadBase/Eyelash
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: HeadBase/Eyes
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: HeadBase/EyesBrown
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: HeadBase/EyesTear
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: HeadBase/Head
     m_Weight: 1
   - m_Path: HeadBase/Teeth
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: root
     m_Weight: 1
   - m_Path: root/ik_foot_root

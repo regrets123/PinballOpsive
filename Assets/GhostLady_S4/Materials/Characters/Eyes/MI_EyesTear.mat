@@ -2,15 +2,22 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MI_EyesTear
-  m_Shader: {fileID: 4800000, guid: 0476087218f332a43851657fb7b3985c, type: 3}
-  m_ShaderKeywords: _ADD_PRECOMPUTED_VELOCITY _ALPHABLEND_ON _BLENDMODE_ADD _DISABLE_SSR_TRANSPARENT
-    _ENABLE_FOG_ON_TRANSPARENT _INVERTMAP_ON _SURFACE_TYPE_TRANSPARENT
+  m_Shader: {fileID: 4800000, guid: 6bc2d7fbe274fde44b7eb1dad2c8eef4, type: 3}
+  m_ValidKeywords:
+  - _ENABLE_FOG_ON_TRANSPARENT
+  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords:
+  - _ADD_PRECOMPUTED_VELOCITY
+  - _ALPHABLEND_ON
+  - _BLENDMODE_ADD
+  - _DISABLE_SSR_TRANSPARENT
+  - _INVERTMAP_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -87,12 +94,27 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 1
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 1
     - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
     - _Ambientlight: 0
     - _AoIntensity: 1
     - _BlendMode: 1
@@ -105,10 +127,12 @@ Material:
     - _DetailNormalMapScale: 1
     - _Distortion: 0
     - _DoubleSidedEnable: 0
+    - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 1
     - _Emiss: 0.3
     - _EmissiveIntensity: 1
+    - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _Gloss: 0.8
     - _GlossMapScale: 1
@@ -121,6 +145,7 @@ Material:
     - _NormalIntensity: 1
     - _OcclusionStrength: 1
     - _OpacityBoost: 0.02
+    - _OpaqueCullMode: 2
     - _Parallax: 0.02
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
@@ -150,6 +175,7 @@ Material:
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _UVSec: 0
     - _UseShadowThreshold: 0

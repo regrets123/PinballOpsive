@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,8 +21,10 @@ public class TestingInputSystem : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
+        Debug.Log("inputMag is " + inputVector.magnitude);
         animator.SetFloat("sideMovement", inputVector.x, .1f, Time.deltaTime);
         animator.SetFloat("forwardMovement", inputVector.y, .1f, Time.deltaTime);
+        animator.SetFloat("Magnitude", inputVector.magnitude, .1f, Time.deltaTime);
     }
 
     private void Update()

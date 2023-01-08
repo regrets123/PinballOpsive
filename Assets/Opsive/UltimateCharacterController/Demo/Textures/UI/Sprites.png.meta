@@ -348,7 +348,7 @@ TextureImporter:
       213: 21300228
     second: MagicFireball
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -368,6 +368,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -376,9 +378,9 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 1
     aniso: 16
-    mipBias: -100
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -399,13 +401,41 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1647,6 +1677,65 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      LoadOutBG: 21300210
+      SniperRifleIcon: 21300198
+      BowIcon: 21300018
+      KnifeIcon: 21300192
+      ShotgunIcon: 21300112
+      MagicShieldBubble: 21300220
+      DescriptionPanel: 21300158
+      MagicFireball: 21300228
+      Joystick: 21300178
+      CircleButton: 21300182
+      PistolCrosshairsCenter: 21300022
+      AssaultRifleIcon: 21300090
+      MovementTypeIcon: 21300164
+      SwordIcon: 21300014
+      FragGrenadeCrosshairs: 21300170
+      PerspectiveMovementPanel: 21300214
+      BowCrosshairs_Attack: 21300168
+      BodyIcon: 21300070
+      PistolIcon: 21300172
+      MagicHeal: 21300218
+      MeleeCrosshairs: 21300054
+      RightArrow: 21300160
+      Box_BorderOnly: 21300156
+      SniperCrosshairs: 21300106
+      MagicTeleport: 21300226
+      RocketLauncherIcon: 21300194
+      Box_Solid: 21300150
+      Box_NoBorder: 21300146
+      ShieldIcon: 21300196
+      FlashlightIcon: 21300216
+      LeftArrow: 21300174
+      Box_Border: 21300144
+      RocketLauncherCrosshairs: 21300052
+      HitIndicator: 21300068
+      AssaultRifleCrosshairsRight: 21300062
+      PistolCrosshairsBottom: 21300066
+      AssaultRifleCrosshairsLeft: 21300064
+      BowCrosshairsAim: 21300072
+      Box_ThickerBorder: 21300154
+      JoystickBase: 21300180
+      PerspectiveIcon: 21300162
+      WeaponLine: 21300140
+      SecondaryFragGrenadeIcon: 21300006
+      BodyCrosshairs: 21300142
+      AssaultRifleCrosshairsBottom: 21300060
+      PistolCrosshairsRight: 21300048
+      AssaultRifleCrosshairsCenter: 21300056
+      AbilityIndicator: 21300166
+      MagicRicochet: 21300224
+      AssaultRifleCrosshairsTop: 21300058
+      PistolCrosshairsLeft: 21300050
+      MagicParticleStream: 21300222
+      PrimaryFragGrenadeIcon: 21300208
+      PistolCrosshairsTop: 21300046
+      KatanaIcon: 21300190
+      ShotgunCrosshairs: 21300104
+      Box_Gradient: 21300152
+      WeaponBG: 21300000
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
