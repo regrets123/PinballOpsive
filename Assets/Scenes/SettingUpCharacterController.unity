@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.1853, g: 324.85815, b: 429.9668, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4475,6 +4475,46 @@ PrefabInstance:
       propertyPath: _playerCam
       value: 
       objectReference: {fileID: 1911078428}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_MotorAcceleration.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_MotorAcceleration.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_AbilityData.Array.data[0].m_Values.Array.data[169]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_OnGroundedEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_OnGroundedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_OnGroundedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 685750370}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_OnGroundedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_OnGroundedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetGrounded
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_OnGroundedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TestingInputSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106473371017156788, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+      propertyPath: m_OnGroundedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 9106473371017156792, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -4525,6 +4565,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+--- !u!114 &685750370 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5621909999920296564, guid: 4039652e8a0023d489efe09811d70e2e, type: 3}
+  m_PrefabInstance: {fileID: 685750369}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9db8f4e1da2b9a4d8dbecb23a2e2848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &696536234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12536,7 +12587,7 @@ MonoBehaviour:
   - m_ObjectType: Opsive.UltimateCharacterController.ThirdPersonController.Camera.ViewTypes.Adventure
     m_ValueHashes: b892271ef386732dda46c359da4a13812a613f7b8f8712956484732d194fcf5919431f81e968337b4c8e1e953d390dca65df27147c49fce19d993aec09db5f3f1ff18eed6bc57ea35384848092d929c04463666915e59907c2ec19d014018d40a6d1eed3595adc3b83abe3390c4bd52a38b43e4857de8f81d3b7fb58ed641c600fee455a3d92642ceefc2360908a94fa1f6aa2e92b95498b44fff842c0968c9bfe456ba31ccf32992eb313ef7b7620a4390b0c6bb6eb3a788214d11aed7e60d36917140a57c4f332b54eaa0887328b7e101968c8566a3524d98a0337ed75e855821f599c06762d4538a5ca7dda2f9347e853b23186548c3ae75f6e0db8c73562ca94968a8525290197f289292bc1a97e
     m_ValuePositions: 000000000400000004000000080000000c000000100000001100000011000000180000001c000000200000002100000025000000290000002d000000390000003d000000490000004d000000590000005d0000006100000062000000660000006a0000006e0000006e00000072000000760000007a0000007e0000008200000086000000920000009e0000009e000000a2000000a6000000aa000000ae000000b2000000b6000000c2000000ce000000ce000000d2000000d6000000da000000de000000e2000000e6000000f2000000fe000000fe00000002010000060100000a0100000e0100001201000016010000220100002e0100003f01000043010000470100004b0100004f01000053010000
-    m_Values: 020000005a6f6f6d00000000000000000044656661756c74ffffffff00000000010000b442cdcc4c3e0000c8420000003f0000003fcdccccbecdcc4c3d00000000000000000000803fcdcc4c3d000000000000000000000000000000000ad7233d01cdcc4c3f000090c200009042cdcc4c3e0000803e0000f04278000000acc5273700401c4600401cc600401cc600401cc600401c4600401c4600401c46cdcc4c3e0000803e0000803f78000000acc5273700401c4600401cc600401cc600401cc600401c4600401c4600401c46cdcc4c3e0000803e0000803f78000000acc5273700401c4600401cc600401cc600401cc600401c4600401c4600401c46cdcc4c3e0000803e0000803f78000000acc5273700401c4600401cc600401cc600401cc600401c4600401c4600401c464d6f757365205363726f6c6c576865656c00000000000000000000803f000034c3000034433333333f
+    m_Values: 020000005a6f6f6d00000000000000000044656661756c74ffffffff000000000100008c42cdcc4c3e0000c8420000003f0000803f000000c0cdcc4c3d00000000000000000000803fcdcc4c3d000000000000000000000000000000000ad7233d01cdcc4c3f000090c200009042cdcc4c3e0000803e0000f04278000000acc5273700401c4600401cc600401cc600401cc600401c4600401c4600401c46cdcc4c3e0000803e0000803f78000000acc5273700401c4600401cc600401cc600401cc600401c4600401c4600401c46cdcc4c3e0000803e0000803f78000000acc5273700401c4600401cc600401cc600401cc600401c4600401c4600401c46cdcc4c3e0000803e0000803f78000000acc5273700401c4600401cc600401cc600401cc600401c4600401c4600401c464d6f757365205363726f6c6c576865656c00000000000000000000803f000034c3000034433333333f
     m_UnityObjects:
     - {fileID: 11400000, guid: da67cc4518129ec40bc4e49daeff5c3a, type: 2}
     m_Version: 3.1

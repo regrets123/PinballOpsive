@@ -4,42 +4,42 @@ using UnityEngine.InputSystem;
 public class TestingInputSystem : MonoBehaviour
 {
     [SerializeField]
-    private float speed = 0.1f;
-    PinballOpsiveInputSystem playerInputActions;
-    private Animator animator;
+    private float _speed = 0.1f;
+    PinballOpsiveInputSystem _playerInputActions;
+    private Animator _animator;
+    private bool _grounded;
 
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
 
-        playerInputActions = new PinballOpsiveInputSystem();
-        playerInputActions.Player.Enable();
-        playerInputActions.Player.Jump.performed += Jump;
+        _playerInputActions = new PinballOpsiveInputSystem();
+        _playerInputActions.Player.Enable();
+        _playerInputActions.Player.Jump.performed += Jump;
     }
 
     private void FixedUpdate()
     {
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
+        Vector2 inputVector = _playerInputActions.Player.Move.ReadValue<Vector2>();
         Debug.Log("inputMag is " + inputVector.magnitude);
-        animator.SetFloat("sideMovement", inputVector.x, .1f, Time.deltaTime);
-        animator.SetFloat("forwardMovement", inputVector.y, .1f, Time.deltaTime);
-        animator.SetFloat("Magnitude", inputVector.magnitude, .1f, Time.deltaTime);
+        _animator.SetFloat("sideMovement", inputVector.x, .1f, Time.deltaTime);
+        _animator.SetFloat("forwardMovement", inputVector.y, .1f, Time.deltaTime);
+        _animator.SetFloat("Magnitude", inputVector.magnitude, .1f, Time.deltaTime);
     }
 
-    private void Update()
+    public void SetGrounded(bool isGrounded)
     {
-        //Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        //Debug.Log(inputVector);
-        //animator.SetFloat("sideMovement", inputVector.x, .1f, Time.deltaTime);
-        //animator.SetFloat("forwardMovement", inputVector.y, .1f, Time.deltaTime);
+        _grounded = isGrounded;
+        _animator.SetBool("Grounded", isGrounded);
     }
 
     public void Jump(InputAction.CallbackContext context)
     {
         Debug.Log(context);
-        if (context.performed)
+        if (context.performed && _grounded)
         {
+            _animator.SetTrigger("Jump");
             Debug.Log("Jump " + context.phase);
         }
     }
