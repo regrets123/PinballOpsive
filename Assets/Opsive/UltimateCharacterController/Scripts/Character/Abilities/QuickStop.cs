@@ -94,8 +94,7 @@ namespace Opsive.UltimateCharacterController.Character.Abilities
             m_AverageInput /= m_InputCount;
             if (m_AverageInput.sqrMagnitude < 0.01f) {
                 return false;
-            }
-
+            }         
             return true;
         }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
 public class TestingInputSystem : MonoBehaviour
@@ -6,14 +7,14 @@ public class TestingInputSystem : MonoBehaviour
     [SerializeField]
     private float _speed = 0.1f;
     PinballOpsiveInputSystem _playerInputActions;
+    [SerializeField]
     private Animator _animator;
     private bool _grounded;
 
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
-
+        Assert.IsNotNull(_animator);
         _playerInputActions = new PinballOpsiveInputSystem();
         _playerInputActions.Player.Enable();
         _playerInputActions.Player.Jump.performed += Jump;
@@ -22,7 +23,6 @@ public class TestingInputSystem : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 inputVector = _playerInputActions.Player.Move.ReadValue<Vector2>();
-        Debug.Log("inputMag is " + inputVector.magnitude);
         _animator.SetFloat("sideMovement", inputVector.x, .1f, Time.deltaTime);
         _animator.SetFloat("forwardMovement", inputVector.y, .1f, Time.deltaTime);
         _animator.SetFloat("Magnitude", inputVector.magnitude, .1f, Time.deltaTime);

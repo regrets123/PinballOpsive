@@ -463,10 +463,10 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'thigh_l'
-      : position error = 1.404211 mm\n\t'calf_l' : position error = 25.596968 mm\n\t'foot_l'
-      : position error = 7.846061 mm\n\t'ball_l' : position error = 3.513113 mm\n\t'thigh_r'
-      : position error = 1.402044 mm\n\t'calf_r' : position error = 10.767511 mm\n\t'foot_r'
-      : position error = 8.847024 mm\n\t'ball_r' : position error = 3.092898 mm\n"
+      : position error = 36.796066 mm\n\t'calf_l' : position error = 17.599867 mm\n\t'foot_l'
+      : position error = 46.085888 mm\n\t'ball_l' : position error = 69.510284 mm\n\t'thigh_r'
+      : position error = 35.629372 mm\n\t'calf_r' : position error = 11.588452 mm\n\t'foot_r'
+      : position error = 45.600155 mm\n\t'ball_r' : position error = 69.676239 mm\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
@@ -707,19 +707,19 @@ ModelImporter:
     - boneName: upperarm_l
       humanName: LeftUpperArm
       limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
+        min: {x: -90, y: -100, z: -50}
+        max: {x: 90, y: 100, z: 90}
         value: {x: 0, y: 0, z: 0}
         length: 0
-        modified: 0
+        modified: 1
     - boneName: upperarm_r
       humanName: RightUpperArm
       limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
+        min: {x: -90, y: -100, z: -50}
+        max: {x: 90, y: 100, z: 90}
         value: {x: 0, y: 0, z: 0}
         length: 0
-        modified: 0
+        modified: 1
     - boneName: lowerarm_l
       humanName: LeftLowerArm
       limit:

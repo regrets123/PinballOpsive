@@ -813,7 +813,6 @@ namespace Opsive.UltimateCharacterController.Character.Abilities
             if (m_AnimatorMotion == null) {
                 return;
             }
-
             // Evaluate the curve at the current time.
             if (updatePosition) {
                 var deltaPosition = m_CharacterLocomotion.AnimatorDeltaPosition;
