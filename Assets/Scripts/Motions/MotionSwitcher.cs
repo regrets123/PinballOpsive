@@ -13,6 +13,8 @@ public class MotionSwitcher : MonoBehaviour
     private float[] _keyfloatThresholds;
     [SerializeField]
     private string _animKeyFloat = "ForwardMovement";
+    [SerializeField]
+    private int _indexParameter; 
 
 
     private void Start()
@@ -25,25 +27,18 @@ public class MotionSwitcher : MonoBehaviour
 
     public void SwitchMotion(Ability ability, bool activated)
     {
-        if(activated)
+        if(activated && ability.AbilityIndexParameter == _indexParameter)
         {
-            bool newSpeed = false;
             float speedThreshhold = _anim.GetFloat(_animKeyFloat);
             for (int i = 0; i < _keyfloatThresholds.Length; i++)
             {
                 if (_keyfloatThresholds[i] < speedThreshhold)
                 {
-                    newSpeed = true;
                     ability.AnimatorMotion = _motions[i];                
                     Debug.Log("Motion on quickstop is now " + ability.AnimatorMotion.name);
                     break;
                 }
-            }
-            if(!newSpeed)
-            {
-                ability.AnimatorMotion = _motions[_motions.Length-1];
-                Debug.Log("Motion on quickstop is lowestSpeed " + ability.AnimatorMotion.name);
-            }
+            }           
         }    
     }
 }
